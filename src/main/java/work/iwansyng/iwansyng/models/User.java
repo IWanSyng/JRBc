@@ -50,11 +50,11 @@ public abstract class User {
         this.password = password;
     }
 
-    public boolean isEnabled() {
+    public boolean getIsEnabled() {
         return isEnabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setIsEnabled(boolean enabled) {
         isEnabled = enabled;
     }
 
@@ -62,7 +62,7 @@ public abstract class User {
         this.isAdmin = isAdmin;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 

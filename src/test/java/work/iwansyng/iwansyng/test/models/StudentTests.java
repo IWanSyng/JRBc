@@ -30,11 +30,10 @@ public class StudentTests extends IwansyngApplicationTests {
     @Test
     public void testStudent() throws Exception {
         mockMvc.perform(get("/student")).andExpect(status().isOk())
-                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.firstName").value("FirstName"))
                 .andExpect(jsonPath("$.lastName").value("LastName"))
                 .andExpect(jsonPath("$.uniqueId").value(105))
                 .andExpect(jsonPath("$.isEnabled").value(true));
     }
-
 }
