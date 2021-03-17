@@ -1,4 +1,4 @@
-package work.iwansyng.iwansyng;
+package work.iwansyng.iwansyng.models;
 
 public class Instructor extends User{
 

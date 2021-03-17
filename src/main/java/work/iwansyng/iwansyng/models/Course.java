@@ -1,4 +1,4 @@
-package work.iwansyng.iwansyng;
+package work.iwansyng.iwansyng.models;
 
 import java.util.Date;
 

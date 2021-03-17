@@ -1,6 +1,6 @@
-package work.iwansyng.iwansyng;
+package work.iwansyng.iwansyng.models;
 
-public class Student extends User{
+public class Student extends User {
 
     public int getUniqueId() {
         return uniqueId;

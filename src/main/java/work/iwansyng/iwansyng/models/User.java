@@ -1,6 +1,14 @@
-package work.iwansyng.iwansyng;
+package work.iwansyng.iwansyng.models;
 
 public abstract class User {
+
+    private int id;
+    private boolean isEnabled = true;
+    private boolean isAdmin;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String password;
 
     public int getId() {
         return id;
@@ -9,13 +17,6 @@ public abstract class User {
     public void setId(int id) {
         this.id = id;
     }
-
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String userName;
-    private String password;
-    private boolean isEnabled;
 
     public String getFirstName() {
         return firstName;
@@ -65,5 +66,4 @@ public abstract class User {
         return isAdmin;
     }
 
-    private boolean isAdmin;
 }

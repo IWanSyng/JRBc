@@ -1,10 +1,10 @@
-package work.iwansyng.iwansyng;
+package work.iwansyng.iwansyng.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class IwansyngApplicationTests {
+public class IwansyngApplicationTests {
 
 	@Test
 	void contextLoads() {
