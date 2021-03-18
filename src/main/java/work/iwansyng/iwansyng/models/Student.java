@@ -1,9 +1,11 @@
 package work.iwansyng.iwansyng.models;
 
-public class Student extends User {
-    private int uniqueId;
 
-    public int getUniqueId() {
+public class Student extends User {
+
+    private Integer uniqueId;
+
+    public Integer getUniqueId() {
         return uniqueId;
     }
 

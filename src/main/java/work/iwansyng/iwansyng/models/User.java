@@ -1,16 +1,23 @@
 package work.iwansyng.iwansyng.models;
 
-public abstract class User {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-    private int id;
-    private boolean isEnabled = true;
-    private boolean isAdmin;
+@Entity // This tells Hibernate to make a table out of this class
+public class User {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer id;
+    private Boolean isEnabled = true;
+    private Boolean isAdmin;
     private String firstName;
     private String lastName;
     private String userName;
     private String password;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -65,5 +72,4 @@ public abstract class User {
     public boolean getIsAdmin() {
         return isAdmin;
     }
-
 }

@@ -3,8 +3,8 @@ package work.iwansyng.iwansyng.models;
 import java.util.Date;
 
 public class Course {
-    private int courseId;
-    private int instructorId;
+    private Integer courseId;
+    private Integer instructorId;
     private Date startDate;
     private Date endDate;
     private String courseName;
@@ -15,7 +15,7 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
@@ -23,7 +23,7 @@ public class Course {
         this.courseId = courseId;
     }
 
-    public int getInstructorId() {
+    public Integer getInstructorId() {
         return instructorId;
     }
 

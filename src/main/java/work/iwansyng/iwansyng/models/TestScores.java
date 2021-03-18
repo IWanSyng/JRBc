@@ -4,8 +4,8 @@ import java.util.List;
 
 public class TestScores {
 
-    public int courseId;
-    public int studentId;
+    public Integer courseId;
+    public Integer studentId;
     public List<Test> testScores;
 
 }

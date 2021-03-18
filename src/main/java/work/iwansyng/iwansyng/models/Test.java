@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class Test {
-    private int id;
+    private Integer id;
     private List<TestQuestion> questions;
 
     public Test() {

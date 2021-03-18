@@ -5,9 +5,11 @@ import java.util.List;
 
 public class TestQuestion {
 
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
+
+    public String questionText;
+    public List<String> answerText;
+    public AnswerType answerType;
+    public Integer answerValue;
 
     public TestQuestion(AnswerType answerType) {
         this.answerType = answerType;
@@ -20,10 +22,9 @@ public class TestQuestion {
         //answerValue[x] = set
     //}
     }
-    public String questionText;
-    public List<String> answerText;
-    public AnswerType answerType;
-    public int answerValue;
 
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
 
 }
