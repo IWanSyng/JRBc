@@ -10,4 +10,6 @@ public class IwansyngApplication {
 		SpringApplication.run(IwansyngApplication.class, args);
 	}
 
+
+
 }

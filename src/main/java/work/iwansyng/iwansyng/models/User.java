@@ -1,27 +1,28 @@
 package work.iwansyng.iwansyng.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity(name="user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.INTEGER)
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+
+    private Long id;
     private Boolean isEnabled = true;
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
     private String firstName;
     private String lastName;
     private String userName;
     private String password;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -65,7 +66,7 @@ public class User {
         isEnabled = enabled;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
+    protected void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 

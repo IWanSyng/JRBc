@@ -9,14 +9,14 @@ import work.iwansyng.iwansyng.models.Student;
 @RestController
 public class TestStudentController {
 
-    @RequestMapping(value = "/student", method = RequestMethod.GET)
-    public Student firstPage() {
-
-        Student student = new Student();
-        student.setFirstName("FirstName");
-        student.setLastName("LastName");
-        student.setUniqueId(105);
-
-        return student;
-    }
+//    @RequestMapping(value = "/student", method = RequestMethod.GET)
+//    public Student firstPage() {
+//
+//        Student student = new Student();
+//        student.setFirstName("FirstName");
+//        student.setLastName("LastName");
+//        student.setUniqueId(105);
+//
+//        return student;
+//    }
 }
