@@ -2,17 +2,17 @@ package work.iwansyng.iwansyng.models;
 
 import javax.persistence.*;
 
-@Entity(name="user")
+@Entity(name="users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.INTEGER)
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
 
     private Long id;
     private Boolean isEnabled = true;
-    private Boolean isAdmin = false;
     private String firstName;
     private String lastName;
     private String userName;
@@ -66,11 +66,7 @@ public class User {
         isEnabled = enabled;
     }
 
-    protected void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public boolean getIsAdmin() {
-        return isAdmin;
+    public boolean isAdmin() {
+        return false;
     }
 }

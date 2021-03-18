@@ -6,6 +6,5 @@ import javax.persistence.*;
 @DiscriminatorValue("2")
 public class Instructor extends User {
     public Instructor() {
-        this.setIsAdmin(true);
     }
 }
