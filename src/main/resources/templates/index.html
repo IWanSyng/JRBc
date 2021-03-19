@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html  lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en">
 <head>
-    <title>Spring Security Example</title>
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+    <title>Java Training Bootcamp</title>
+    <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet" />
 </head>
 <body>
-    <h1>Welcome!</h1>
-
-    <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
+<div class="container"><br/>
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+        <strong>Success!</strong> It is working as we expected.
+        <br/>
+        <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
+    </div>
+</div>
 </body>
 </html>

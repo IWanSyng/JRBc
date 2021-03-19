@@ -1,8 +1,7 @@
 package work.iwansyng.iwansyng.models;
+
 import javax.persistence.*;
 
-@Entity
-@DiscriminatorValue("1")
 public class Student extends User {
 
     private Integer uniqueId;

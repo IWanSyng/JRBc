@@ -1,27 +1,57 @@
 package work.iwansyng.iwansyng.models;
 
+import java.util.List;
+
 import javax.persistence.*;
 
-@Entity(name="users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.INTEGER)
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "users")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.INTEGER)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-
     private Long id;
-    private Boolean isEnabled = true;
+
+    @Column(nullable = false)
+    @NotBlank
     private String firstName;
+
+    @Column(nullable = false)
+    @NotBlank
     private String lastName;
+
+    @Column(nullable = false)
+    @NotBlank
     private String userName;
-    private String password;
 
-    public Long getId() {
-        return id;
-    }
+    // TODO: We will need to check user input and catch before input to db
+    @Column(nullable = false)
+    @NotBlank
+    @Size(min = 8)
+    private String passWord;
 
+//    @Column(nullable = false, unique = true)
+//    @NotBlank
+//    @Email(message = "{errors.invalid_email}")
+    private String email;
+
+    @Column
+    private Boolean isActive;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
+
+    public Long getId() { return id; }
+
+    // TODO: investigate whether these methods are mandatory!!!
     public void setId(Long id) {
         this.id = id;
     }
@@ -51,22 +81,20 @@ public class User {
     }
 
     public String getPassword() {
-        return password;
+        return passWord;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.passWord = password;
     }
 
-    public boolean getIsEnabled() {
-        return isEnabled;
+    public Role getRole() {
+        return role;
     }
 
-    public void setIsEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
+    public void setRole(Role role) { this.role = role; }
 
-    public boolean isAdmin() {
-        return false;
-    }
+    public Boolean getActive() { return isActive; }
+
+    public void setActive(Boolean active) { isActive = active; }
 }
