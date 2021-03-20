@@ -20,9 +20,9 @@ public class IwanSyngUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUserName(userName);
+        Optional<User> user = userRepository.findByUsername(userName);
         user.orElseThrow(() -> new UsernameNotFoundException("User not found: " + userName));
 
-        return user.map(IwanSyngUserDetails::new).get();
+        return new IwanSyngUserDetails(user.get());
     }
 }

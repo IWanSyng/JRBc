@@ -1,11 +1,11 @@
 package work.iwansyng.iwansyng.models;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -30,7 +30,7 @@ public class User {
 
     @Column(nullable = false)
     @NotBlank
-    private String userName;
+    private String username;
 
     // TODO: We will need to check user input and catch before input to db
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class User {
 //    @Column(nullable = false, unique = true)
 //    @NotBlank
 //    @Email(message = "{errors.invalid_email}")
-    private String email;
+//    private String email;
 
     @Column
     private Boolean isActive;
@@ -49,9 +49,12 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date created;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role role;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles = new HashSet<Role>();
 
     public Long getId() { return id; }
 
@@ -76,12 +79,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -100,9 +103,9 @@ public class User {
 
     public void setCreated(Date created) { this.created = created; }
 
-    public Role getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) { this.role = role; }
+    public void setRoles(HashSet<Role> role) { this.roles = roles; }
 }

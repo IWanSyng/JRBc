@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import work.iwansyng.iwansyng.models.Role;
 import work.iwansyng.iwansyng.models.User;
@@ -30,6 +31,9 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Autowired
     UserRepository userRepository;
+
+//    @Autowired
+//    AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Qualifier("iwanSyngUserDetailsService")
     UserDetailsService userDetailsService;
@@ -55,6 +59,7 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
                     "/",
                     "/index",
                     "/all",
+                    "/two_users",
                     "/resources/**",
                     "/resources/templates/**",
                     "/resources/templates/css/**",

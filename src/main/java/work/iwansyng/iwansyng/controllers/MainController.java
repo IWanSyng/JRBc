@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller // This means that this class is a Controller
 public class MainController {
@@ -57,12 +60,15 @@ public class MainController {
                                   HttpServletResponse response,
                                   Authentication authResult) throws IOException, ServletException {
 
-        String role =  authResult.getAuthorities().toString();
+        List<String> roles = authResult.getAuthorities()
+                        .stream()
+                        .map((g) -> g.getAuthority())
+                        .collect(Collectors.toList());
 
-        if(role.contains("ADMIN")){
+        if (roles.contains("ADMIN")){
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin"));
         }
-        else if(role.contains("USER")) {
+        else if (roles.contains("USER")) {
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/user"));
         }
     }
@@ -80,10 +86,10 @@ public class MainController {
         User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setUserName(userName);
+        user.setUsername(userName);
         user.setPassword(passWord);
         user.setActive(true);
-        user.setRole(roleRepository.findByRoleName("USER"));
+//        user.setRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user);
 
@@ -99,24 +105,53 @@ public class MainController {
         User user = new User();
         user.setFirstName("maris");
         user.setLastName("krastins");
-        user.setUserName("student");
+        user.setUsername("student");
 //        user.setPassword("student007");
         user.setPassword(passwordEncoder.encode("student007"));
         user.setActive(true);
-        user.setRole(roleRepository.findByRoleName("USER"));
+//        user.setRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user);
 
         User user1 = new User();
         user1.setFirstName("Janis");
         user1.setLastName("Kalnins");
-        user1.setUserName("teacher");
+        user1.setUsername("teacher");
 //        user1.setPassword("admin1234");
         user1.setPassword(passwordEncoder.encode("admin1234"));
         user1.setActive(true);
-        user1.setRole(roleRepository.findByRoleName("ADMIN"));
+//        user1.setRole(roleRepository.findByRoleName("ADMIN"));
 
         userRepository.save(user1);
+
+        return userRepository.findAll();
+    }
+
+    @GetMapping(path="/two_users")
+    public @ResponseBody Iterable<User> getAllUsersOne() {
+        // This returns a JSON or XML with the users
+
+        User user2 = new User();
+        user2.setFirstName("regina");
+        user2.setLastName("brunevica");
+        user2.setUsername("u01");
+//        user.setPassword("student007");
+        user2.setPassword(passwordEncoder.encode("student008"));
+        user2.setActive(true);
+//        user2.setRole(roleRepository.findByRoleName("USER"));
+
+        userRepository.save(user2);
+
+        User user3 = new User();
+        user3.setFirstName("Janis");
+        user3.setLastName("Zagorskis");
+        user3.setUsername("admin");
+//        user1.setPassword("admin1234");
+        user3.setPassword(passwordEncoder.encode("admin5678"));
+        user3.setActive(true);
+//        user3.setRole(roleRepository.findByRoleName("ADMIN"));
+
+        userRepository.save(user3);
 
         return userRepository.findAll();
     }

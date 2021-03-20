@@ -10,19 +10,11 @@ import javax.validation.constraints.NotBlank;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    @NotBlank
     private String roleName;
-
-    @OneToOne(mappedBy = "role")
-    private User user;
-
-    public Role() {
-    }
 
     public Long getId() { return id; }
 
@@ -34,13 +26,5 @@ public class Role {
 
     public void setRoleName(String name) {
         this.roleName = name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
