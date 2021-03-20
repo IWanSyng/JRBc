@@ -15,6 +15,8 @@
 	<description>Iwansyng is a codename for a remote student testing project</description>
 	<properties>
 		<java.version>11</java.version>
+		<rest-assured.version>4.3.3</rest-assured.version>
+		<groovy.version>3.0.2</groovy.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -132,6 +134,42 @@
 			<artifactId>webjars-locator</artifactId>
 			<version>0.30</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.3.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured-all</artifactId>
+			<version>4.3.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured-common</artifactId>
+			<version>4.3.3</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.rest-assured</groupId>-->
+<!--			<artifactId>spring-mock-mvc</artifactId>-->
+<!--			<version>3.3.0</version>-->
+<!--			<scope>test</scope>-->
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<artifactId>rest-assured</artifactId>-->
+<!--					<groupId>io.rest-assured</groupId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
+<!--		</dependency>-->
+
 	</dependencies>
 	<build>
 		<plugins>

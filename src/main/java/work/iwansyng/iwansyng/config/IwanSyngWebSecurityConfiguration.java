@@ -68,6 +68,7 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
             .and()
                 .formLogin()
                     .loginPage("/login")
+                        .defaultSuccessUrl("/hello", true)
                         .permitAll()
             .and()
                 .logout()
@@ -80,7 +81,7 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        //return new BCryptPasswordEncoder();
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
+        //return NoOpPasswordEncoder.getInstance();
     }
 }

@@ -2,13 +2,17 @@ package work.iwansyng.iwansyng.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import work.iwansyng.iwansyng.models.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.net.URI;
 
 @Controller // This means that this class is a Controller
@@ -19,6 +23,9 @@ public class MainController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public MainController(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -36,13 +43,37 @@ public class MainController {
     @GetMapping(path = "/login")
     public String login() { return "/login";  }
 
-    @GetMapping(path = "/hello")
-    public String hello() { return "/hello";  }
+//    @GetMapping(path = "/hello")
+//    public String hello() { return "/hello";  }
+
+    @GetMapping(path = "/admin")
+    public String admin() { return "/admin";  }
+
+    @GetMapping(path = "/user")
+    public String user() { return "/user";  }
+
+    @RequestMapping("/hello")
+    public void loginPageRedirect(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  Authentication authResult) throws IOException, ServletException {
+
+        String role =  authResult.getAuthorities().toString();
+
+        if(role.contains("ADMIN")){
+            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/admin"));
+        }
+        else if(role.contains("USER")) {
+            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/user"));
+        }
+    }
 
     @PostMapping(path="/add_user", consumes = "application/json", produces = "application/json") // Map ONLY POST Requests
-    public String addNewUser (@RequestParam String firstName, @RequestParam String lastName,
-                                                 @RequestParam String userName,
-                                                 @RequestParam String passWord, HttpServletRequest request, HttpServletResponse response) {
+    public String addNewUser (@RequestParam String firstName,
+                              @RequestParam String lastName,
+                              @RequestParam String userName,
+                              @RequestParam String passWord,
+                              HttpServletRequest request,
+                              HttpServletResponse response) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
@@ -52,6 +83,8 @@ public class MainController {
         user.setUserName(userName);
         user.setPassword(passWord);
         user.setActive(true);
+        user.setRole(roleRepository.findByRoleName("USER"));
+
         userRepository.save(user);
 
         response.setStatus(HttpServletResponse.SC_OK);
@@ -67,7 +100,8 @@ public class MainController {
         user.setFirstName("maris");
         user.setLastName("krastins");
         user.setUserName("student");
-        user.setPassword("student007");
+//        user.setPassword("student007");
+        user.setPassword(passwordEncoder.encode("student007"));
         user.setActive(true);
         user.setRole(roleRepository.findByRoleName("USER"));
 
@@ -77,7 +111,8 @@ public class MainController {
         user1.setFirstName("Janis");
         user1.setLastName("Kalnins");
         user1.setUserName("teacher");
-        user1.setPassword("admin1234");
+//        user1.setPassword("admin1234");
+        user1.setPassword(passwordEncoder.encode("admin1234"));
         user1.setActive(true);
         user1.setRole(roleRepository.findByRoleName("ADMIN"));
 

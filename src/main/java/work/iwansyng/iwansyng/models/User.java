@@ -1,5 +1,6 @@
 package work.iwansyng.iwansyng.models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -45,6 +46,9 @@ public class User {
     @Column
     private Boolean isActive;
 
+    @Temporal(TemporalType.DATE)
+    private Date created;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
@@ -88,13 +92,17 @@ public class User {
         this.passWord = password;
     }
 
+    public Boolean getActive() { return isActive; }
+
+    public void setActive(Boolean active) { isActive = active; }
+
+    public Date getCreated() { return created; }
+
+    public void setCreated(Date created) { this.created = created; }
+
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) { this.role = role; }
-
-    public Boolean getActive() { return isActive; }
-
-    public void setActive(Boolean active) { isActive = active; }
 }
