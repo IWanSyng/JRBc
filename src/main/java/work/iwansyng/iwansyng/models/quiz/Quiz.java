@@ -1,6 +1,8 @@
 package work.iwansyng.iwansyng.models.quiz;
 
-import java.time.LocalDateTime;
+import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
+
+import javax.persistence.Convert;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,14 @@ public class Quiz {
 //    private LocalDateTime dateModified;
 
     public List<QuizItem> getQuizItems() {
-        return List.copyOf(quizItems);
+        return quizItems;
     }
 
+    public void setQuizItems(List<QuizItem> quizItems) {
+        this.quizItems = quizItems;
+    }
+
+    @Convert(converter = GenericTypeAttributeConverter.class)
     private List<QuizItem> quizItems = new ArrayList();
 
     public Quiz() {

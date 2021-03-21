@@ -8,11 +8,12 @@ public class QuizItemSingleAnswer extends QuizItem{
 
     public QuizItemSingleAnswer(String questionString, String... answerStrings) {
         super(questionString, answerStrings);
+        answerType = AnswerType.SINGLE;
     }
 
     @Override
     public AnswerType getAnswerType() {
-        return AnswerType.SINGLE;
+        return answerType;
     }
 
     @Override

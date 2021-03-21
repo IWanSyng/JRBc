@@ -6,18 +6,19 @@ public class QuizItemMapAnswer extends QuizItem {
         super();
     }
 
-    public QuizItemMapAnswer(String questionString, String... answerStrings) {
-        super(questionString, answerStrings);
+    public QuizItemMapAnswer(
+            String questionString, String... answerStrings) {
+        answerType = AnswerType.MAP_MATCH;
     }
 
     @Override
     public AnswerType getAnswerType() {
-        return AnswerType.MAP_MATCH;
+        return answerType;
     }
 
     @Override
     public void addAnswer(int answerLineIndex, int questionLineIndex) {
-        if (this.questionAnswerMap.size() < answer.getAnswerCandidates().size())
+        if (this.questionAnswerMap.size() < getAnswerCandidateLines().size())
             this.questionAnswerMap.put(answerLineIndex, questionLineIndex);
     }
 

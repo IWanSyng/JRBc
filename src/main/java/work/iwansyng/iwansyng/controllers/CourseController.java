@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import work.iwansyng.iwansyng.converters.QuizListAttributeConverter;
 import work.iwansyng.iwansyng.models.Course;
 import work.iwansyng.iwansyng.models.CourseRepository;
 import work.iwansyng.iwansyng.models.quiz.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class CourseController {

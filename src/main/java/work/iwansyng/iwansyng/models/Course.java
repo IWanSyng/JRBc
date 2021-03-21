@@ -1,6 +1,6 @@
 package work.iwansyng.iwansyng.models;
 
-import work.iwansyng.iwansyng.converters.QuizListAttributeConverter;
+import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
 import work.iwansyng.iwansyng.models.quiz.Quiz;
 
 import javax.persistence.*;
@@ -21,7 +21,7 @@ public class Course {
     private String courseName;
 
     @Column(columnDefinition = "JSON")
-    @Convert(converter = QuizListAttributeConverter.class)
+    @Convert(converter = GenericTypeAttributeConverter.class)
     private List<Quiz> quizzes = new ArrayList<>();
 
     public Course(String courseName, LocalDate startDate, LocalDate endDate) {

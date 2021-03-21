@@ -8,16 +8,17 @@ public class QuizItemMultiAnswer extends QuizItem {
 
     public QuizItemMultiAnswer(String questionString, String... answerStrings) {
         super(questionString, answerStrings);
+        answerType = AnswerType.MULTIPLE;
     }
 
     @Override
     public AnswerType getAnswerType() {
-        return AnswerType.MULTIPLE;
+        return answerType;
     }
 
     @Override
     public void addAnswer(int answerLineIndex, int questionLineIndex) {
-        if (this.questionAnswerMap.size() < answer.getAnswerCandidates().size())
+        if (this.questionAnswerMap.size() < getAnswerCandidateLines().size())
             this.questionAnswerMap.put(answerLineIndex, questionLineIndex);
     }
 

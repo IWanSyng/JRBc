@@ -1,14 +1,6 @@
 package work.iwansyng.iwansyng;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import work.iwansyng.iwansyng.converters.QuizListAttributeConverter;
-import work.iwansyng.iwansyng.models.Course;
-import work.iwansyng.iwansyng.models.quiz.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CourseObjectGenerationDemo {
     public static void main(String[] args) throws JsonProcessingException {
