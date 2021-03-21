@@ -28,7 +28,7 @@ public class User {
     @NotBlank
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank
     private String username;
 
@@ -108,4 +108,7 @@ public class User {
     }
 
     public void setRoles(HashSet<Role> role) { this.roles = roles; }
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
 }
