@@ -6,6 +6,10 @@ import java.util.List;
 public class Answer {
     private List<String> answerCandidateTextLines = new ArrayList<>();
 
+    public Answer() {
+
+    }
+
     public Answer(String... answerStrings) {
         for (String answer : answerStrings) {
             addAnswerCandidate(answer);

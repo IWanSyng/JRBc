@@ -73,7 +73,7 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
             .and()
                 .formLogin()
                     .loginPage("/login")
-                        .defaultSuccessUrl("/hello", true)
+                        .defaultSuccessUrl("/course", true)
                         .permitAll()
             .and()
                 .logout()

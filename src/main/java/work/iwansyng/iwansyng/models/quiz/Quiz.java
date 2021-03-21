@@ -9,15 +9,19 @@ public class Quiz {
     private Long id;
 
     private String name;
-    private LocalDateTime dateAdded;
-
-    private LocalDateTime dateModified;
+//    private LocalDateTime dateAdded;
+//
+//    private LocalDateTime dateModified;
 
     public List<QuizItem> getQuizItems() {
         return List.copyOf(quizItems);
     }
 
     private List<QuizItem> quizItems = new ArrayList();
+
+    public Quiz() {
+
+    }
 
     public String getName() {
         return name;
@@ -27,21 +31,21 @@ public class Quiz {
         this.name = name;
     }
 
-    public  LocalDateTime getDateAdded() {
-        return dateAdded;
-    }
+//    public  LocalDateTime getDateAdded() {
+//        return dateAdded;
+//    }
+//
+//    public void setDateAdded(LocalDateTime dateAdded) {
+//        this.dateAdded = dateAdded;
+//    }
+//
+//    public  LocalDateTime getDateModified() {
+//        return dateModified;
+//    }
 
-    public void setDateAdded(LocalDateTime dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    public  LocalDateTime getDateModified() {
-        return dateModified;
-    }
-
-    public void setDateModified(LocalDateTime dateModified) {
-        this.dateModified = dateModified;
-    }
+//    public void setDateModified(LocalDateTime dateModified) {
+//        this.dateModified = dateModified;
+//    }
     public void addQuizItem(QuizItem quizItem) {
         if (!quizItems.contains(quizItem))
             quizItems.add(quizItem);

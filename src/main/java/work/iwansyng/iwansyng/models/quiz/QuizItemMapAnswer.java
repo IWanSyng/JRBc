@@ -1,6 +1,11 @@
 package work.iwansyng.iwansyng.models.quiz;
 
 public class QuizItemMapAnswer extends QuizItem {
+
+    public QuizItemMapAnswer() {
+        super();
+    }
+
     public QuizItemMapAnswer(String questionString, String... answerStrings) {
         super(questionString, answerStrings);
     }

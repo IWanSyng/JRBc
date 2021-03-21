@@ -31,7 +31,6 @@ public class MainController {
     @Autowired
     RoleRepository roleRepository;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 

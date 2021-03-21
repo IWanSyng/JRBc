@@ -2,6 +2,10 @@ package work.iwansyng.iwansyng.models.quiz;
 
 public class QuizItemSingleAnswer extends QuizItem{
 
+    public QuizItemSingleAnswer() {
+        super();
+    }
+
     public QuizItemSingleAnswer(String questionString, String... answerStrings) {
         super(questionString, answerStrings);
     }

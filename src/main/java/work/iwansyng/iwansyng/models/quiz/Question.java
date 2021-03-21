@@ -6,6 +6,10 @@ import java.util.List;
 public class Question {
     private List<String> questionTextLines = new ArrayList<>();
 
+    public Question() {
+
+    }
+
     public Question(String questionString) {
         addQuestionLine(questionString);
     }

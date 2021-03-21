@@ -3,7 +3,7 @@ package work.iwansyng.iwansyng.models.quiz;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class QuizItem implements Answerable {
+public class QuizItem implements Answerable {
     public Question getQuestion() {
         return question;
     }
@@ -21,13 +21,17 @@ public abstract class QuizItem implements Answerable {
         return Map.copyOf(questionAnswerMap);
     }
 
+    public QuizItem() {
+
+    }
+
     public QuizItem(String questionString, String... answerStrings) {
-        if (questionString == null)
-            throw new IllegalArgumentException(
-                    "'questionString' cannot be null");
-        if (answerStrings == null || answerStrings.length == 0)
-            throw new IllegalArgumentException(
-                    "'answerStrings' cannot be null and 'answerStrings' length should be > 0");
+//        if (questionString == null)
+//            throw new IllegalArgumentException(
+//                    "'questionString' cannot be null");
+//        if (answerStrings == null || answerStrings.length == 0)
+//            throw new IllegalArgumentException(
+//                    "'answerStrings' cannot be null and 'answerStrings' length should be > 0");
 
         this.question = new Question(questionString);
         this.answer = new Answer(answerStrings);
@@ -47,5 +51,20 @@ public abstract class QuizItem implements Answerable {
 
     public void removeAnswerCandidateLineAt(int index) {
         this.answer.removeAnswerCandidateAt(index);
+    }
+
+    @Override
+    public AnswerType getAnswerType() {
+        return null;
+    }
+
+    @Override
+    public void addAnswer(int answerLineIndex, int questionLineIndex) {
+
+    }
+
+    @Override
+    public void removeAnswer(int answerLineIndex, int questionLineIndex) {
+
     }
 }

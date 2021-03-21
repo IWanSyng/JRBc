@@ -21,6 +21,8 @@
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<h3>Welcome to the Java Training Bootcamp by Accenture.</h3>
+<h3 th:inline="text">The name of the course: [[${course}]]!</h3>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Sign Out"/>
 </form>
