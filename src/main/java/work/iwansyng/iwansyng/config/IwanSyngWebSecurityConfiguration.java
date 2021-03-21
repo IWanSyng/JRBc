@@ -61,6 +61,7 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
                     "/all",
                     "/two_users",
                     "/resources/**",
+                    "/resources/public/**",
                     "/resources/templates/**",
                     "/resources/templates/css/**",
                     "/resources/templates/js/**",
