@@ -34,9 +34,9 @@ public class QuizController {
         item3.addQuestionLine("Sour");
         item3.addQuestionLine("Wet");
 
-        item3.addAnswerCandidateLine("Man");
+        item3.addAnswerCandidateLine("Sweet");
         item3.addAnswerCandidateLine("Dry");
-        item3.addAnswerCandidateLine("Black");
+        item3.addAnswerCandidateLine("White");
 
         item3.addAnswer(0, 1);
         item3.addAnswer(1, 2);
