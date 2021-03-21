@@ -1,65 +1,51 @@
 package work.iwansyng.iwansyng.models.quiz;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
+import work.iwansyng.iwansyng.models.*;
 
-import javax.persistence.Convert;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
+
+@Entity
+@Table(name = "quizzes")
+@Getter @Setter @NoArgsConstructor
 public class Quiz {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
-
     private String name;
-//    private LocalDateTime dateAdded;
-//
-//    private LocalDateTime dateModified;
 
-    public List<QuizItem> getQuizItems() {
-        return quizItems;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public void setQuizItems(List<QuizItem> quizItems) {
-        this.quizItems = quizItems;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
+    @Column(columnDefinition = "JSON")
     @Convert(converter = GenericTypeAttributeConverter.class)
-    private List<QuizItem> quizItems = new ArrayList();
+    private List<QuizItem> quizItems;
 
-    public Quiz() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-//    public  LocalDateTime getDateAdded() {
-//        return dateAdded;
-//    }
-//
-//    public void setDateAdded(LocalDateTime dateAdded) {
-//        this.dateAdded = dateAdded;
-//    }
-//
-//    public  LocalDateTime getDateModified() {
-//        return dateModified;
-//    }
-
-//    public void setDateModified(LocalDateTime dateModified) {
-//        this.dateModified = dateModified;
-//    }
     public void addQuizItem(QuizItem quizItem) {
         if (!quizItems.contains(quizItem))
             quizItems.add(quizItem);
     }
 
     public void removeQuizItem(QuizItem quizItem) {
-        if (quizItems.contains(quizItem))
-            quizItems.remove(quizItem);
+        quizItems.remove(quizItem);
+    }
+
+    public List<QuizItem> getQuizWithoutAnswers() {
+        List<QuizItem> quizItems = getQuizItems();
+        for (int i = 0; i < quizItems.size(); i++) {
+            quizItems.get(i).clearAnswer();
+        }
+        return quizItems;
     }
 }

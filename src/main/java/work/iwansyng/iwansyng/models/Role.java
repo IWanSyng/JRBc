@@ -1,5 +1,9 @@
 package work.iwansyng.iwansyng.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -7,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "roles")
+@Getter @Setter @NoArgsConstructor
 public class Role {
 
     @Id
@@ -15,16 +20,4 @@ public class Role {
     private Long id;
 
     private String roleName;
-
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String name) {
-        this.roleName = name;
-    }
 }

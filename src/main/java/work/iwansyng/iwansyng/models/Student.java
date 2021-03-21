@@ -1,15 +1,28 @@
 package work.iwansyng.iwansyng.models;
 
 
-public class Student extends User {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    private Integer uniqueId;
+import javax.persistence.*;
+import java.util.Set;
 
-    public Integer getUniqueId() {
-        return uniqueId;
-    }
+@Entity
+@Table(name = "students")
+@Getter
+@Setter
+@NoArgsConstructor
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-    public void setUniqueId(Integer uniqueId) {
-        this.uniqueId = uniqueId;
-    }
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_courses",
+            joinColumns = {@JoinColumn(name = "student_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
+    private Set<Course> courses;
 }

@@ -57,6 +57,6 @@ public class IwanSyngUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getActive();
+        return user.getIsEnabled();
     }
 }

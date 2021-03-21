@@ -62,7 +62,7 @@ public class MainController {
     @RequestMapping("/hello")
     public void loginPageRedirect(HttpServletRequest request,
                                   HttpServletResponse response,
-                                  Authentication authResult) throws IOException, ServletException {
+                                  Authentication authResult) throws IOException {
 
         List<String> roles = authResult.getAuthorities()
                         .stream()
@@ -92,8 +92,8 @@ public class MainController {
         user.setLastName(lastName);
         user.setUsername(userName);
         user.setPassword(passWord);
-        user.setActive(true);
-//        user.setRole(roleRepository.findByRoleName("USER"));
+        user.setIsEnabled(true);
+        user.addRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user);
 
@@ -110,10 +110,9 @@ public class MainController {
         user.setFirstName("maris");
         user.setLastName("krastins");
         user.setUsername("student");
-//        user.setPassword("student007");
         user.setPassword(passwordEncoder.encode("student007"));
-        user.setActive(true);
-//        user.setRole(roleRepository.findByRoleName("USER"));
+        user.setIsEnabled(true);
+       user.addRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user);
 
@@ -121,10 +120,9 @@ public class MainController {
         user1.setFirstName("Janis");
         user1.setLastName("Kalnins");
         user1.setUsername("teacher");
-//        user1.setPassword("admin1234");
         user1.setPassword(passwordEncoder.encode("admin1234"));
-        user1.setActive(true);
-//        user1.setRole(roleRepository.findByRoleName("ADMIN"));
+        user1.setIsEnabled(true);
+        user1.addRole(roleRepository.findByRoleName("ADMIN"));
 
         userRepository.save(user1);
 
@@ -140,10 +138,9 @@ public class MainController {
         user2.setLastName("brunevica");
         user2.setUsername("u01");
         user2.setPassword(passwordEncoder.encode("student008"));
-        user2.setActive(true);
+        user2.setIsEnabled(true);
 
         user2.addRole(roleRepository.findByRoleName("USER"));
-
         userRepository.save(user2);
 
         User user3 = new User();
@@ -151,12 +148,10 @@ public class MainController {
         user3.setLastName("Zagorskis");
         user3.setUsername("admin");
         user3.setPassword(passwordEncoder.encode("admin5678"));
-        user3.setActive(true);
-
+        user3.setIsEnabled(true);
         user3.addRole(roleRepository.findByRoleName("ADMIN"));
 
         userRepository.save(user3);
-
         return userRepository.findAll();
     }
 }

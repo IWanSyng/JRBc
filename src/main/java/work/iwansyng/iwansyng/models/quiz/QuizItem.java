@@ -3,10 +3,7 @@ package work.iwansyng.iwansyng.models.quiz;
 import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
 
 import javax.persistence.Convert;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class QuizItem implements Answerable {
 
@@ -21,8 +18,6 @@ public class QuizItem implements Answerable {
 
     @Convert(converter = GenericTypeAttributeConverter.class)
     AnswerType answerType;
-
-
 
     public void setQuestionAnswerMap(Map<Integer, Integer> questionAnswerMap) {
         this.questionAnswerMap = questionAnswerMap;
@@ -53,9 +48,7 @@ public class QuizItem implements Answerable {
 
 
         this.questionLines.add(questionString);
-        for (String answerCandidate : answerStrings) {
-            this.answerCandidateLines.add(answerCandidate);
-        }
+        Collections.addAll(this.answerCandidateLines, answerStrings);
     }
 
     public AnswerType getAnswerType() {
@@ -102,5 +95,9 @@ public class QuizItem implements Answerable {
 
     public void removeQuestionLineAt(int index) {
         this.questionLines.remove(index);
+    }
+
+    public void clearAnswer() {
+        questionAnswerMap.clear();
     }
 }

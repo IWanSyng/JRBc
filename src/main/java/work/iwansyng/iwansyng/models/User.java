@@ -1,6 +1,8 @@
 package work.iwansyng.iwansyng.models;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,8 +13,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//@DiscriminatorColumn(name="user_type", discriminatorType = DiscriminatorType.INTEGER)
+@Getter @Setter @NoArgsConstructor
 public class User {
 
     @Id
@@ -36,78 +37,22 @@ public class User {
     @Column(nullable = false)
     @NotBlank
     @Size(min = 8)
-    private String passWord;
-
-//    @Column(nullable = false, unique = true)
-//    @NotBlank
-//    @Email(message = "{errors.invalid_email}")
-//    private String email;
+    private String password;
 
     @Column
-    private Boolean isActive;
+    private Boolean isEnabled;
 
-    @Temporal(TemporalType.DATE)
-    private Date created;
+//    @CreatedDate
+//    @Column(name = "created_at", nullable = false, updatable = false)
+//    private Date createdAt;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles = new HashSet<>();
 
-    public Long getId() { return id; }
-
-    // TODO: investigate whether these methods are mandatory!!!
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return passWord;
-    }
-
-    public void setPassword(String password) {
-        this.passWord = password;
-    }
-
-    public Boolean getActive() { return isActive; }
-
-    public void setActive(Boolean active) { isActive = active; }
-
-    public Date getCreated() { return created; }
-
-    public void setCreated(Date created) { this.created = created; }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(HashSet<Role> role) { this.roles = roles; }
     public void addRole(Role role) {
         this.roles.add(role);
     }
