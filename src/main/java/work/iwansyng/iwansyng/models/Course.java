@@ -3,15 +3,9 @@ package work.iwansyng.iwansyng.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
-import work.iwansyng.iwansyng.models.quiz.Quiz;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -23,4 +17,12 @@ public class Course {
     @Column(name = "id")
     private Long id;
     private String courseName;
+
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
+
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+
+    private Boolean isActive = true;
 }

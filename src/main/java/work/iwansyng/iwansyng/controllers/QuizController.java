@@ -4,13 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import work.iwansyng.iwansyng.models.InstructorRepository;
+import work.iwansyng.iwansyng.models.QuizRepository;
+import work.iwansyng.iwansyng.models.StudentRepository;
+import work.iwansyng.iwansyng.models.UserRepository;
 import work.iwansyng.iwansyng.models.quiz.*;
+import work.iwansyng.iwansyng.models.role.Instructor;
+import work.iwansyng.iwansyng.models.role.User;
+
+import java.util.List;
 
 @Controller
 public class QuizController {
 
     @Autowired
     QuizRepository quizRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public QuizController(QuizRepository quizRepository) {
         this.quizRepository = quizRepository;
@@ -55,9 +66,30 @@ public class QuizController {
 
         quiz2.addQuizItem(item21);
 
-        quizRepository.save(quiz);
-        quizRepository.save(quiz2);
 
+         List<User> users = userRepository.findAll();
+         for (User user : users) {
+             if (!user.getIsEnabled() || user.getRole().getRoleName().equals("USER"))
+                 continue;
+
+             quiz.setUser(user);
+             quiz2.setUser(user);
+
+             quizRepository.save(quiz);
+             quizRepository.save(quiz2);
+         }
+
+        for (User user : users) {
+            if (!user.getIsEnabled() || user.getRole().getRoleName().equals("ADMIN"))
+                continue;
+
+            quiz.setUser(user);
+            quiz2.setUser(user);
+            Quiz userQuiz = quiz.getQuizWithoutAnswers();
+            Quiz userQuiz2 = quiz2.getQuizWithoutAnswers();
+            quizRepository.save(userQuiz);
+            quizRepository.save(userQuiz2);
+        }
         return "quiz";
     }
 }

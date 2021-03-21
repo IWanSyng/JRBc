@@ -1,25 +1,18 @@
 package work.iwansyng.iwansyng.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import work.iwansyng.iwansyng.models.*;
-import work.iwansyng.iwansyng.models.quiz.*;
+import work.iwansyng.iwansyng.models.RoleRepository;
+import work.iwansyng.iwansyng.models.role.User;
+import work.iwansyng.iwansyng.models.UserRepository;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller // This means that this class is a Controller
@@ -93,7 +86,7 @@ public class MainController {
         user.setUsername(userName);
         user.setPassword(passWord);
         user.setIsEnabled(true);
-        user.addRole(roleRepository.findByRoleName("USER"));
+        user.setRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user);
 
@@ -112,7 +105,7 @@ public class MainController {
         user.setUsername("student");
         user.setPassword(passwordEncoder.encode("student007"));
         user.setIsEnabled(true);
-       user.addRole(roleRepository.findByRoleName("USER"));
+        user.setRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user);
 
@@ -122,7 +115,7 @@ public class MainController {
         user1.setUsername("teacher");
         user1.setPassword(passwordEncoder.encode("admin1234"));
         user1.setIsEnabled(true);
-        user1.addRole(roleRepository.findByRoleName("ADMIN"));
+        user1.setRole(roleRepository.findByRoleName("ADMIN"));
 
         userRepository.save(user1);
 
@@ -140,7 +133,7 @@ public class MainController {
         user2.setPassword(passwordEncoder.encode("student008"));
         user2.setIsEnabled(true);
 
-        user2.addRole(roleRepository.findByRoleName("USER"));
+        user2.setRole(roleRepository.findByRoleName("USER"));
         userRepository.save(user2);
 
         User user3 = new User();
@@ -149,7 +142,7 @@ public class MainController {
         user3.setUsername("admin");
         user3.setPassword(passwordEncoder.encode("admin5678"));
         user3.setIsEnabled(true);
-        user3.addRole(roleRepository.findByRoleName("ADMIN"));
+        user3.setRole(roleRepository.findByRoleName("ADMIN"));
 
         userRepository.save(user3);
         return userRepository.findAll();

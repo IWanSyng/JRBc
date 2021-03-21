@@ -3,11 +3,10 @@ package work.iwansyng.iwansyng.service;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import work.iwansyng.iwansyng.models.Role;
-import work.iwansyng.iwansyng.models.User;
+import work.iwansyng.iwansyng.models.role.Role;
+import work.iwansyng.iwansyng.models.role.User;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class IwanSyngUserDetails implements UserDetails {
 
@@ -16,16 +15,12 @@ public class IwanSyngUserDetails implements UserDetails {
     public IwanSyngUserDetails(User user) {
         this.user = user;
     }
-
-    /* TODO: These values are hardcoded will need to refactor */
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = user.getRoles();
+        Role role = user.getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-        }
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
 
         return authorities;
     }

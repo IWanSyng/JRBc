@@ -1,11 +1,13 @@
-package work.iwansyng.iwansyng.models;
+package work.iwansyng.iwansyng.models.role;
 
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import work.iwansyng.iwansyng.models.Course;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,10 +21,25 @@ public class Student {
     @Column(name = "id")
     private Long id;
 
+    private Integer uniqueId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    private Boolean isActive = true;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_courses",
             joinColumns = {@JoinColumn(name = "student_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private Set<Course> courses;
+
+    public void enrollInCourse(Course course) {
+        if (courses == null) {
+            courses = new HashSet<>();
+        }
+        courses.add(course);
+    }
 }

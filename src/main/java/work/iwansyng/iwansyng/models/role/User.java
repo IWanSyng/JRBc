@@ -1,8 +1,10 @@
-package work.iwansyng.iwansyng.models;
+package work.iwansyng.iwansyng.models.role;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,18 +44,10 @@ public class User {
     @Column
     private Boolean isEnabled;
 
-//    @CreatedDate
-//    @Column(name = "created_at", nullable = false, updatable = false)
-//    private Date createdAt;
+    @Temporal(TemporalType.DATE)
+    private Date createdAt = new Date(System.currentTimeMillis());
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<>();
-
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

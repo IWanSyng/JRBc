@@ -1,4 +1,4 @@
-package work.iwansyng.iwansyng.models;
+package work.iwansyng.iwansyng.models.role;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

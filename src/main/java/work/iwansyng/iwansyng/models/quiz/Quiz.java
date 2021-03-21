@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
 import work.iwansyng.iwansyng.models.*;
+import work.iwansyng.iwansyng.models.role.User;
 
 import javax.persistence.*;
 import java.util.*;
@@ -30,7 +31,11 @@ public class Quiz {
 
     @Column(columnDefinition = "JSON")
     @Convert(converter = GenericTypeAttributeConverter.class)
-    private List<QuizItem> quizItems;
+    private List<QuizItem> quizItems = new ArrayList<>();
+
+
+    @Temporal(TemporalType.DATE)
+    private Date createdAt = new Date(System.currentTimeMillis());
 
     public void addQuizItem(QuizItem quizItem) {
         if (!quizItems.contains(quizItem))
@@ -41,11 +46,17 @@ public class Quiz {
         quizItems.remove(quizItem);
     }
 
-    public List<QuizItem> getQuizWithoutAnswers() {
-        List<QuizItem> quizItems = getQuizItems();
-        for (int i = 0; i < quizItems.size(); i++) {
-            quizItems.get(i).clearAnswer();
+    public Quiz getQuizWithoutAnswers() {
+        Quiz clone = new Quiz();
+        List<QuizItem> clonedQuizItems = List.copyOf(getQuizItems());
+        for (int i = 0; i < clonedQuizItems.size(); i++) {
+            clonedQuizItems.get(i).clearAnswer();
         }
-        return quizItems;
+        clone.id = this.id;
+        clone.user = this.user;
+        clone.course = this.course;
+        clone.name = this.name;
+        clone.quizItems = clonedQuizItems;
+        return clone;
     }
 }
