@@ -1,49 +1,48 @@
 package work.iwansyng.iwansyng.models;
 
-import java.util.Date;
+import work.iwansyng.iwansyng.converters.QuizListAttributeConverter;
+import work.iwansyng.iwansyng.models.quiz.Quiz;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Entity
+@Table(name = "courses")
 public class Course {
-    private Integer courseId;
-    private Integer instructorId;
-    private Date startDate;
-    private Date endDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String courseName;
 
-    public Course(String courseName, Date startDate, Date endDate) {
+    @Column(columnDefinition = "JSON")
+    @Convert(converter = QuizListAttributeConverter.class)
+    private List<Quiz> quizzes = new ArrayList<>();
+
+    public Course(String courseName, LocalDate startDate, LocalDate endDate) {
         this.courseName = courseName;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
-
-    public Integer getInstructorId() {
-        return instructorId;
-    }
-
-    public void setInstructorId(int instructorId) {
-        this.instructorId = instructorId;
-    }
-
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
@@ -53,5 +52,13 @@ public class Course {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public void addQuiz(Quiz quiz) {
+        quizzes.add(quiz);
+    }
+
+    public void removeQuiz(Quiz quiz) {
+        quizzes.remove(quiz);
     }
 }

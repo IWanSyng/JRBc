@@ -9,6 +9,7 @@ import work.iwansyng.iwansyng.models.UserRepository;
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
 public class IwansyngApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(IwansyngApplication.class, args);
 	}

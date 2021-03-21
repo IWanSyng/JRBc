@@ -1,6 +1,5 @@
 package work.iwansyng.iwansyng.models;
 
-import javax.persistence.*;
 
 public class Student extends User {
 

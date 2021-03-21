@@ -8,12 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import work.iwansyng.iwansyng.models.*;
+import work.iwansyng.iwansyng.models.quiz.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,6 +30,7 @@ public class MainController {
 
     @Autowired
     RoleRepository roleRepository;
+
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -135,10 +140,10 @@ public class MainController {
         user2.setFirstName("regina");
         user2.setLastName("brunevica");
         user2.setUsername("u01");
-//        user.setPassword("student007");
         user2.setPassword(passwordEncoder.encode("student008"));
         user2.setActive(true);
-//        user2.setRole(roleRepository.findByRoleName("USER"));
+
+        user2.addRole(roleRepository.findByRoleName("USER"));
 
         userRepository.save(user2);
 
@@ -146,10 +151,10 @@ public class MainController {
         user3.setFirstName("Janis");
         user3.setLastName("Zagorskis");
         user3.setUsername("admin");
-//        user1.setPassword("admin1234");
         user3.setPassword(passwordEncoder.encode("admin5678"));
         user3.setActive(true);
-//        user3.setRole(roleRepository.findByRoleName("ADMIN"));
+
+        user3.addRole(roleRepository.findByRoleName("ADMIN"));
 
         userRepository.save(user3);
 
