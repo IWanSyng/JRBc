@@ -33,9 +33,6 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping(path = "/login")
-    public String login() { return "login";  }
-
     @GetMapping
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public String getUserById(@PathVariable("id") Long id, Model model) {
@@ -60,28 +57,6 @@ public class UserController {
         model.addAttribute("user", user);
 
         return "user";
-    }
-
-    @GetMapping(path = "/user_registration")
-    public String enrollUser(Model model) {
-        model.addAttribute("user", new User());
-
-        return "user_registration";
-    }
-
-    @PostMapping(path="/user_registration") // Map ONLY POST Requests
-    public String setNewUser(@ModelAttribute("user") User user, Model model) {
-        User temp = userRepository.findByUsername(user.getUsername());
-        if (temp != null) {
-            model.addAttribute("user", temp);
-            return "saved";
-        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(roleRepository.findByRoleName("USER"));
-        userRepository.save(user);
-
-        return "saved";
     }
 
     @RequestMapping("/Training/Java")
