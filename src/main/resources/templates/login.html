@@ -3,10 +3,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <title>Signin Template · Bootstrap v5.0</title>
+  <title>Log In</title>
 
   <!-- Bootstrap core CSS -->
-<!--  <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet" />-->
+<!--  <link href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+        rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+        crossorigin="anonymous">
 
   <style>
     html,
@@ -80,6 +83,7 @@
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
       <label for="inputEmail" class="visually-hidden">Email address</label>
       <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required="" autofocus="">
+      <br/>
       <label for="inputPassword" class="visually-hidden">Password</label>
       <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
       <div class="checkbox mb-3">

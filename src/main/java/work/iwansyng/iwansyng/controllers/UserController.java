@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/user")
 public class UserController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/login")
-    public String login() { return "/login";  }
+    public String login() { return "login";  }
 
     @GetMapping
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -45,6 +45,19 @@ public class UserController {
         }
 
         model.addAttribute("user", user.get());
+
+        return "user";
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public String userHomePage(@PathVariable("username") String username, Model model) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return "404";
+        }
+
+        model.addAttribute("user", user);
 
         return "user";
     }
