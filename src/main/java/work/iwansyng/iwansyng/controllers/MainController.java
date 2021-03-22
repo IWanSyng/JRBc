@@ -32,7 +32,7 @@ public class MainController {
     }
 
     @GetMapping(path = "/")
-    public String home() { return "index";  }
+    public String home() { return "login";  }
 
     @GetMapping(path = "/index")
     public String index() { return "index";  }
@@ -68,31 +68,6 @@ public class MainController {
         else if (roles.contains("USER")) {
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/user"));
         }
-    }
-
-    @PostMapping(path="/add_user", consumes = "application/json", produces = "application/json") // Map ONLY POST Requests
-    public String addNewUser (@RequestParam String firstName,
-                              @RequestParam String lastName,
-                              @RequestParam String userName,
-                              @RequestParam String passWord,
-                              HttpServletRequest request,
-                              HttpServletResponse response) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
-
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setUsername(userName);
-        user.setPassword(passWord);
-        user.setIsEnabled(true);
-        user.setRole(roleRepository.findByRoleName("USER"));
-
-        userRepository.save(user);
-
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        return response.getContentType();
     }
 
     @GetMapping(path="/all")

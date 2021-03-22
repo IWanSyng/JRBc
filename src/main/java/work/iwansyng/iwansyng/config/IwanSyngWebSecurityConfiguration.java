@@ -42,40 +42,47 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers(
-                    "/",
-                    "/index",
-                    "/all",
-                    "/two_users",
-                    "/resources/**",
-                    "/resources/public/**",
-                    "/resources/templates/**",
-                    "/resources/templates/css/**",
-                    "/resources/templates/js/**",
-                    "/resources/templates/img/**",
-                    "/webjars/**",
-                    "/test",
-                    "/Training/Java",
-                    "/add_user").permitAll()
-                .anyRequest().authenticated()
-            .and()
-                .formLogin()
-                    .loginPage("/login")
-                        .defaultSuccessUrl("/quiz", true)
-                        .permitAll()
-            .and()
-                .logout()
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login?logout")
-            .permitAll();
+//        http.authorizeRequests()
+//            .antMatchers(
+//                    "/",
+//                    "/index",
+//                    "/all",
+//                    "/two_users",
+//                    "/resources/**",
+//                    "/resources/public/**",
+//                    "/resources/templates/**",
+//                    "/resources/templates/css/**",
+//                    "/resources/templates/js/**",
+//                    "/resources/templates/img/**",
+//                    "/webjars/**",
+//                    "/test",
+//                    "/Training/Java",
+//                    "/add_user").permitAll()
+//                .anyRequest().authenticated()
+//            .and()
+//                .formLogin()
+//                    .loginPage("/login")
+//                        .defaultSuccessUrl("/quiz", true)
+//                        .permitAll()
+//            .and()
+//                .logout()
+//                    .invalidateHttpSession(true)
+//                    .clearAuthentication(true)
+//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                    .logoutSuccessUrl("/login?logout")
+//            .permitAll();
+
+        http.csrf()
+                .disable()
+                .httpBasic()
+                .disable()
+                .authorizeRequests()
+                .anyRequest()
+                .permitAll();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-        //return NoOpPasswordEncoder.getInstance();
     }
 }

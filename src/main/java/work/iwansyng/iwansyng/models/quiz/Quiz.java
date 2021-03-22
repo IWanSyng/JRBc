@@ -15,6 +15,7 @@ import java.util.*;
 @Table(name = "quizzes")
 @Getter @Setter @NoArgsConstructor
 public class Quiz {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,7 +34,6 @@ public class Quiz {
     @Convert(converter = GenericTypeAttributeConverter.class)
     private List<QuizItem> quizItems = new ArrayList<>();
 
-
     @Temporal(TemporalType.DATE)
     private Date createdAt = new Date(System.currentTimeMillis());
 
@@ -49,9 +49,11 @@ public class Quiz {
     public Quiz getQuizWithoutAnswers() {
         Quiz clone = new Quiz();
         List<QuizItem> clonedQuizItems = List.copyOf(getQuizItems());
+
         for (int i = 0; i < clonedQuizItems.size(); i++) {
             clonedQuizItems.get(i).clearAnswer();
         }
+
         clone.id = this.id;
         clone.user = this.user;
         clone.course = this.course;

@@ -66,8 +66,7 @@ public class QuizController {
 
         quiz2.addQuizItem(item21);
 
-
-         List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAll();
          for (User user : users) {
              if (!user.getIsEnabled() || user.getRole().getRoleName().equals("USER"))
                  continue;

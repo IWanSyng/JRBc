@@ -8,11 +8,14 @@ import work.iwansyng.iwansyng.converters.GenericTypeAttributeConverter;
 import javax.persistence.Convert;
 import java.util.*;
 
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class QuizItem implements Answerable {
 
     @Convert(converter = GenericTypeAttributeConverter.class)
     private List<String> questionLines = new ArrayList<>();
+
     @Convert(converter = GenericTypeAttributeConverter.class)
     private List<String> answerCandidateLines = new ArrayList<>();
 
@@ -22,7 +25,6 @@ public class QuizItem implements Answerable {
     @Convert(converter = GenericTypeAttributeConverter.class)
     protected Map<Integer, Integer> questionAnswerMap = new HashMap<>();
 
-
     public QuizItem(String questionString, String... answerStrings) {
         if (questionString == null)
             throw new IllegalArgumentException(
@@ -30,7 +32,6 @@ public class QuizItem implements Answerable {
         if (answerStrings == null || answerStrings.length == 0)
             throw new IllegalArgumentException(
                     "'answerStrings' cannot be null and 'answerStrings' length should be > 0");
-
 
         this.questionLines.add(questionString);
         Collections.addAll(this.answerCandidateLines, answerStrings);
@@ -45,7 +46,6 @@ public class QuizItem implements Answerable {
     public void removeAnswer(int answerLineIndex, int questionLineIndex) {
         questionAnswerMap.remove(answerLineIndex, questionLineIndex);
     }
-
 
     public void addAnswerCandidateLine(String answerCandidateLine) {
         this.answerCandidateLines.add(answerCandidateLine);
