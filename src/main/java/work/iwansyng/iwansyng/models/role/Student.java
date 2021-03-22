@@ -34,7 +34,4 @@ public class Student {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    public void enrollInCourse(Course course) {
-        this.course = course;
-    }
 }

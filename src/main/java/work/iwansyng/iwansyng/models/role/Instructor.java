@@ -30,8 +30,4 @@ public class Instructor {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private Course course;
-
-    public void assignCourse(Course course) {
-        this.course = course;
-    }
 }

@@ -53,7 +53,7 @@ public class StudentController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-         user.setRole(roleRepository.findByRoleName("USER"));
+        user.setRole(roleRepository.findByRoleName("USER"));
         userRepository.save(user);
 
         return "saved";
