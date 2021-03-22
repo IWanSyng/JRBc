@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import work.iwansyng.iwansyng.models.RoleRepository;
-import work.iwansyng.iwansyng.models.StudentRepository;
 import work.iwansyng.iwansyng.models.UserRepository;
 import work.iwansyng.iwansyng.models.role.User;
 
@@ -15,11 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping(value = "/")
 public class UserController {
-    // TODO: Login is handled here in this controller
 
     @Autowired
     RoleRepository roleRepository;
@@ -31,6 +31,22 @@ public class UserController {
 
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @GetMapping(path = "/login")
+    public String login() { return "/login";  }
+
+    @GetMapping
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public String getUserById(@PathVariable("id") Long id, Model model) {
+        Optional<User> user = userRepository.findById(id);
+        if (!user.isPresent()) {
+            return "404";
+        }
+
+        model.addAttribute("user", user.get());
+
+        return "user";
     }
 
     @GetMapping(path = "/user_registration")
@@ -55,7 +71,7 @@ public class UserController {
         return "saved";
     }
 
-    @RequestMapping("/hello")
+    @RequestMapping("/Training/Java")
     public void loginPageRedirect(HttpServletRequest request,
                                   HttpServletResponse response,
                                   Authentication authResult) throws IOException {

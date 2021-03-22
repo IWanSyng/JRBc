@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import work.iwansyng.iwansyng.models.RoleRepository;
 import work.iwansyng.iwansyng.models.StudentRepository;
 import work.iwansyng.iwansyng.models.UserRepository;
 import work.iwansyng.iwansyng.models.role.User;
 
 @Controller
+@RequestMapping(value="/student")
 public class StudentController {
 
     @Autowired
@@ -28,6 +27,14 @@ public class StudentController {
 
     public StudentController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getStudentById(@PathVariable("id") Long id) {
+
+        return "Get a specific Foo with id=" + id;
     }
 
     @GetMapping(path = "/student_enrollment")

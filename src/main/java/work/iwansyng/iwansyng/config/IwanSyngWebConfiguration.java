@@ -12,7 +12,7 @@ public class IwanSyngWebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
-                .addResourceHandler("/webjars/**")
-                .addResourceLocations("/webjars/");
+                .addResourceHandler("/**", "/css", "/webjars/**")
+                .addResourceLocations("**/webjars/", "**/templates/css/**", "/webjars/");
     }
 }

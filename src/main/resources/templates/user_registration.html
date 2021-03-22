@@ -105,6 +105,19 @@
 <!--<script th:src="@{assets/password-strength-meter/password.min.js}"></script>-->
 
 <script>
+    // <input type="password" name="password" id="password" onChange='check_pass();'/>
+    // <input type="password" name="confirm_password" id="confirm_password" onChange='check_pass();'/>
+    // <input type="submit" name="submit" value="registration" id="submit" disabled/>
+
+    var check_password = function() {
+        if (document.getElementById('password').value ==
+            document.getElementById('confirm_password').value) {
+            document.getElementById('submit').disabled = false;
+        } else {
+            document.getElementById('submit').disabled = true;
+        }
+    }
+
     var check_firstname = function() {
         if (document.getElementById('firstname').value.length < 1) {
             document.getElementById('field_firstname').style.color = 'red';
