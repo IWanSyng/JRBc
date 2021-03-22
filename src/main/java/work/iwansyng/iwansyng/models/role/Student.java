@@ -16,6 +16,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -23,23 +24,17 @@ public class Student {
 
     private Integer uniqueId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "student_courses",
-            joinColumns = {@JoinColumn(name = "student_id")},
-            inverseJoinColumns = {@JoinColumn(name = "course_id")})
-    private Set<Course> courses;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     public void enrollInCourse(Course course) {
-        if (courses == null) {
-            courses = new HashSet<>();
-        }
-        courses.add(course);
+        this.course = course;
     }
 }

@@ -27,17 +27,11 @@ public class Instructor {
 
     private Boolean isActive = true;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "instructor_courses",
-            joinColumns = {@JoinColumn(name = "instructor_id")},
-            inverseJoinColumns = {@JoinColumn(name = "course_id")})
-    private Set<Course> courses;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     public void assignCourse(Course course) {
-        if (courses == null) {
-            courses = new HashSet<>();
-        }
-        courses.add(course);
+        this.course = course;
     }
 }
