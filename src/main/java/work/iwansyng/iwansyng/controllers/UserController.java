@@ -34,20 +34,18 @@ public class UserController {
     }
 
     @GetMapping
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public String getUserById(@PathVariable("id") Long id, Model model) {
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
+    public String forwardToUserHomePage(User user, Model model) {
+        User currentUser = userRepository.findByUsername(user.getUsername());
+        if (currentUser.getUsername() != user.getUsername()) {
             return "404";
         }
 
-        model.addAttribute("user", user.get());
+        model.addAttribute("user", user);
 
-        return "user";
+        return "redirect:/user/" + user.getUsername();
     }
 
-    @GetMapping
-    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    @GetMapping(path = "/{username}")
     public String userHomePage(@PathVariable("username") String username, Model model) {
         User user = userRepository.findByUsername(username);
         if (user == null) {

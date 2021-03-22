@@ -10,9 +10,9 @@ import work.iwansyng.iwansyng.models.UserRepository;
 import work.iwansyng.iwansyng.models.role.User;
 
 import javax.annotation.ManagedBean;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "/")
 public class MainController {
     @Autowired
     RoleRepository roleRepository;
@@ -33,15 +33,8 @@ public class MainController {
     public String index() { return "index"; }
 
     @GetMapping(path = "/login")
-    public String login(@PathVariable("username") String username, Model model) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return "404";
-        }
-
-        model.addAttribute("user", user);
-
-        return "user";
+    public String login() {
+        return "login";
     }
 
     @GetMapping(path = "/user_registration")
@@ -50,4 +43,17 @@ public class MainController {
 
         return "user_registration";
     }
+
+    @PostMapping(path = "/user_registration")
+    public String saveEnrolledUser(User user, Model model) {
+        user.setIsEnabled(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(roleRepository.findByRoleName("USER"));
+        userRepository.save(user);
+
+        model.addAttribute("user", user);
+
+        return "redirect:/user/" + user.getUsername();
+    }
+
 }
