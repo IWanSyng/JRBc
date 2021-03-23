@@ -8,6 +8,7 @@ public class QuizItemMapAnswer extends QuizItem {
 
     public QuizItemMapAnswer(
             String questionString, String... answerStrings) {
+        super(questionString, answerStrings);
         answerType = AnswerType.MAP_MATCH;
     }
 
