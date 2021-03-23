@@ -10,6 +10,7 @@ import java.util.Collection;
 
 @Controller
 public class DefaultController {
+
     @RequestMapping("/default")
     public String defaultAfterLogin(HttpServletRequest request) {
 

@@ -21,8 +21,6 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Autowired
     private IwanSyngUserDetailsService userDetailsService;
 
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -49,7 +47,6 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage(loginPage)
-                .loginPage("/")
                 .failureUrl("/login?error=true")
                 .defaultSuccessUrl("/default")
                 .usernameParameter("user_name")
@@ -62,8 +59,8 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
-                .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
+            .ignoring()
+            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
     }
 
 }

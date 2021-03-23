@@ -23,13 +23,24 @@ public class LoginController {
     @Autowired
     private ConfigParamRepository configParamRepository;
 
-    @GetMapping(value={"/", "/login"})
+    @GetMapping(value = "/")
+    public String index() {
+        return "index";
+    }
+
+//    @GetMapping(value = "/")
+//    public ModelAndView index(){
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("");
+//        return modelAndView;
+//    }
+
+    @GetMapping(value= "/login")
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
     }
-
 
     @GetMapping(value="/registration")
     public ModelAndView registration(){
@@ -58,12 +69,16 @@ public class LoginController {
     @PostMapping(value = "/registration")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
+
+        // TODO: User Optional<User> everywhere!!!
         User userExists = userService.findUserByUserName(user.getUsername());
+
         if (userExists != null) {
             bindingResult
                     .rejectValue("userName", "error.user",
                             "There is already a user registered with the user name provided");
         }
+
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
@@ -75,8 +90,8 @@ public class LoginController {
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("registration");
-
         }
+
         return modelAndView;
     }
 
@@ -84,11 +99,13 @@ public class LoginController {
     public ModelAndView createNewAdminUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByUserName(user.getUsername());
+
         if (userExists != null) {
             bindingResult
                     .rejectValue("userName", "error.user",
                             "There is already a user registered with the user name provided");
         }
+
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration_admin");
         } else {
@@ -98,6 +115,7 @@ public class LoginController {
             modelAndView.setViewName("registration_admin");
 
         }
+
         return modelAndView;
     }
 
@@ -109,6 +127,7 @@ public class LoginController {
         modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
         modelAndView.setViewName("admin/home");
+
         return modelAndView;
     }
 
@@ -120,6 +139,7 @@ public class LoginController {
         modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
         modelAndView.addObject("userMessage","Content Available Only for Users with User Role");
         modelAndView.setViewName("user/home");
+
         return modelAndView;
     }
 }
