@@ -1,7 +1,6 @@
 package work.iwansyng.iwansyng.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -73,28 +72,6 @@ public class LoginController {
             modelAndView.addObject("user", new User());
         }
         modelAndView.setViewName("registration");
-
-        return modelAndView;
-    }
-
-    @PostMapping(value = "/admin/registration_admin")
-    public ModelAndView createNewAdminUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.findUserByUserName(user.getUsername());
-
-        if (userExists != null) {
-            bindingResult
-                    .rejectValue("userName", "error.user",
-                            "There is already a user registered with the user name provided");
-        }
-
-        if (!bindingResult.hasErrors()) {
-            userService.saveAdminUser(user);
-            modelAndView.addObject("successMessage", "Admin has been registered successfully");
-            modelAndView.addObject("user", new User());
-
-        }
-        modelAndView.setViewName("/admin/registration_admin");
 
         return modelAndView;
     }
