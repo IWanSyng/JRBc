@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import work.iwansyng.iwansyng.model.Course;
 import work.iwansyng.iwansyng.model.role.User;
 import work.iwansyng.iwansyng.repository.CourseRepository;
 import work.iwansyng.iwansyng.repository.InstructorRepository;
@@ -16,6 +17,7 @@ import work.iwansyng.iwansyng.service.IwanSyngUserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -76,7 +78,7 @@ public class AdminController {
 
     //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
     @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
-    public ModelAndView adminHomePage(@PathVariable("Username") String username, Principal principal) {
+    public ModelAndView adminHomePage(@PathVariable("Username") String username) {
         Optional<String> name = Optional.ofNullable(username);
         User user = null;
         ModelAndView modelAndView = null;
@@ -92,6 +94,19 @@ public class AdminController {
         modelAndView = new ModelAndView();
         modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+
+        List<Course> courses = courseRepository.findAll();
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("courses", courses);
+
+
+
+
+
+
+
+
+
         modelAndView.setViewName("admin/admin_dashboard");
 
         return modelAndView;
