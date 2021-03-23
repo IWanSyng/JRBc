@@ -36,11 +36,16 @@ public class IwanSyngUserService {
     }
 
     public boolean noDefaultAdmin() {
-        User user = userRepository.findByUsername("admin");
-        if (user == null) {
+        List<User> users = userRepository.findAll();
+        if (users == null || users.isEmpty()) {
             return true;
         }
-        return false;
+        for (User user : users) {
+            if (user.getRoles().contains(roleRepository.findByRole("ADMIN"))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isUserRegistrationEnabled() {
