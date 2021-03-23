@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import work.iwansyng.iwansyng.model.Course;
+import work.iwansyng.iwansyng.model.role.Role;
 import work.iwansyng.iwansyng.model.role.User;
 import work.iwansyng.iwansyng.repository.CourseRepository;
 import work.iwansyng.iwansyng.repository.InstructorRepository;
@@ -78,7 +79,7 @@ public class AdminController {
 
     //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
     @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
-    public ModelAndView adminHomePage(@PathVariable("Username") String username) {
+    public ModelAndView adminHomePage(@PathVariable("Username") String username, Principal principal) {
         Optional<String> name = Optional.ofNullable(username);
         User user = null;
         ModelAndView modelAndView = null;
@@ -96,17 +97,11 @@ public class AdminController {
         modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 
         List<Course> courses = courseRepository.findAll();
+        Optional<Role> role = Optional.ofNullable(user.getRoles().stream().findFirst().orElse(null));
+
         modelAndView.addObject("user", user);
+        modelAndView.addObject("role", (role.isPresent() ? role.get().getRole() : ""));
         modelAndView.addObject("courses", courses);
-
-
-
-
-
-
-
-
-
         modelAndView.setViewName("admin/admin_dashboard");
 
         return modelAndView;
