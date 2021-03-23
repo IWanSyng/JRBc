@@ -93,8 +93,8 @@ class QuizTest {
         int year = 2000 + random.nextInt(200);
         int month = 3;
         int date = 1 + random.nextInt(31);
-        int hours = 0 + random.nextInt(24);
-        int mins = 0 + random.nextInt(60);
+        int hours = random.nextInt(24);
+        int mins = random.nextInt(60);
 
         Date simpleDate = null;
         try {
@@ -115,8 +115,8 @@ class QuizTest {
         int year = 2000 + random.nextInt(200);
         int month = 3;
         int date = 1 + random.nextInt(31);
-        int hours = 0 + random.nextInt(24);
-        int mins = 0 + random.nextInt(60);
+        int hours = random.nextInt(24);
+        int mins = random.nextInt(60);
 
         Date simpleDate = null;
         try {

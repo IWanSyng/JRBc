@@ -72,7 +72,6 @@ public class QuizItem implements Answerable, Cloneable {
         QuizItem clone = null;
         try {
              clone = (QuizItem) super.clone();
-             clone.clearAnswers();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
