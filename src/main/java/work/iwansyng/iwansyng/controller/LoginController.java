@@ -1,5 +1,6 @@
 package work.iwansyng.iwansyng.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,13 +16,12 @@ import work.iwansyng.iwansyng.service.IwanSyngUserService;
 import javax.validation.Valid;
 
 @Controller
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Autowired
-    private IwanSyngUserService userService;
+    private final IwanSyngUserService userService;
 
-    @Autowired
-    private ConfigParamRepository configParamRepository;
+    private final ConfigParamRepository configParamRepository;
 
     @GetMapping(value = "/")
     public String index() {
@@ -79,18 +79,16 @@ public class LoginController {
                             "There is already a user registered with the user name provided");
         }
 
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("registration");
-        } else {
-            if(userService.noDefaultAdmin()) {
+        if (!bindingResult.hasErrors()) {
+            if (userService.noDefaultAdmin()) {
                 userService.saveAdminUser(user);
             } else {
                 userService.saveUser(user);
             }
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
         }
+        modelAndView.setViewName("registration");
 
         return modelAndView;
     }
@@ -106,15 +104,13 @@ public class LoginController {
                             "There is already a user registered with the user name provided");
         }
 
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("registration_admin");
-        } else {
+        if (!bindingResult.hasErrors()) {
             userService.saveAdminUser(user);
             modelAndView.addObject("successMessage", "Admin has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration_admin");
 
         }
+        modelAndView.setViewName("registration_admin");
 
         return modelAndView;
     }
