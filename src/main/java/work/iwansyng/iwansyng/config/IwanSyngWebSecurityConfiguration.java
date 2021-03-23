@@ -1,88 +1,69 @@
 package work.iwansyng.iwansyng.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import work.iwansyng.iwansyng.models.UserRepository;
+import work.iwansyng.iwansyng.service.IwanSyngUserDetailsService;
 
-//@Configuration
+@Configuration
 @EnableWebSecurity
 public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Autowired
-//    AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private IwanSyngUserDetailsService userDetailsService;
 
-    @Qualifier("iwanSyngUserDetailsService")
-    UserDetailsService userDetailsService;
 
-    public IwanSyngWebSecurityConfiguration(
-            @Qualifier("iwanSyngUserDetailsService") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(passwordEncoder())
-//                .withUser("admin").password(passwordEncoder()
-//                .encode("password")).roles("USER", "ADMIN");
-        auth.userDetailsService(userDetailsService);
+        auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//            .antMatchers(
-//                    "/",
-//                    "/index",
-//                    "/all",
-//                    "/two_users",
-//                    "/resources/**",
-//                    "/resources/public/**",
-//                    "/resources/templates/**",
-//                    "/resources/templates/css/**",
-//                    "/resources/templates/js/**",
-//                    "/resources/templates/img/**",
-//                    "/webjars/**",
-//                    "/test",
-//                    "/Training/Java",
-//                    "/add_user").permitAll()
-//                .anyRequest().authenticated()
-//            .and()
-//                .formLogin()
-//                    .loginPage("/login")
-//                        .defaultSuccessUrl("/quiz", true)
-//                        .permitAll()
-//            .and()
-//                .logout()
-//                    .invalidateHttpSession(true)
-//                    .clearAuthentication(true)
-//                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                    .logoutSuccessUrl("/login?logout")
-//            .permitAll();
 
-        http.csrf()
-                .disable()
-                .httpBasic()
-                .disable()
-                .authorizeRequests()
+        String loginPage = "/login";
+        String logoutPage = "/logout";
+
+        http.
+                authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers(loginPage).permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/registration_admin").hasAuthority("ADMIN")
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/**").hasAuthority("USER")
                 .anyRequest()
-                .permitAll();
+                .authenticated()
+                .and().csrf().disable()
+                .formLogin()
+                .loginPage(loginPage)
+                .loginPage("/")
+                .failureUrl("/login?error=true")
+                .defaultSuccessUrl("/default")
+                .usernameParameter("user_name")
+                .passwordParameter("password")
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
+                .logoutSuccessUrl(loginPage).and().exceptionHandling();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
     }
+
 }
