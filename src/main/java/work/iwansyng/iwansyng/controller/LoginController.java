@@ -34,48 +34,6 @@ public class LoginController {
         return modelAndView;
     }
 
-    @GetMapping(value="/registration")
-    public ModelAndView registration(){
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (userService.isUserRegistrationEnabled()) {
-            User user = new User();
-            modelAndView.addObject("user", user);
-            modelAndView.setViewName("registration");
-            return modelAndView;
-        }
-
-        modelAndView.setViewName("error");
-        return modelAndView;
-    }
-
-    @PostMapping(value = "/registration")
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        // TODO: User Optional<User> everywhere!!!
-        User userExists = userService.findUserByUserName(user.getUsername());
-
-        if (userExists != null) {
-            bindingResult
-                    .rejectValue("userName", "error.user",
-                            "There is already a user registered with the user name provided");
-        }
-
-        if (!bindingResult.hasErrors()) {
-            if (userService.noDefaultAdmin()) {
-                userService.saveAdminUser(user);
-            } else {
-                userService.saveUser(user);
-            }
-            modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
-        }
-        modelAndView.setViewName("registration");
-
-        return modelAndView;
-    }
-
     @GetMapping(value="/user/home")
     public ModelAndView homeUser(){
         ModelAndView modelAndView = new ModelAndView();

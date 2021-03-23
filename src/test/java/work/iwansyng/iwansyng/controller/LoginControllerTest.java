@@ -46,6 +46,9 @@ class LoginControllerTest {
     @Autowired
     private AdminController adminController;
 
+    @Autowired
+    private RegistrationController registrationController;
+
     @BeforeEach
     void setup() {
         loginController = new LoginController(userService, configParamRepository);
@@ -67,13 +70,13 @@ class LoginControllerTest {
         configParam.setIsEnabled(false);
         configParamRepository.save(configParam);
 
-        ModelAndView modelAndView = loginController.registration();
+        ModelAndView modelAndView = registrationController.registration();
         Assertions.assertEquals(modelAndView.getViewName(), "error");
 
         configParam.setIsEnabled(true);
         configParamRepository.save(configParam);
 
-        modelAndView = loginController.registration();
+        modelAndView = registrationController.registration();
         Assertions.assertEquals(modelAndView.getViewName(), "registration");
     }
 
