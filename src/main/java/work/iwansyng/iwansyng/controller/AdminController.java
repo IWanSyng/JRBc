@@ -5,9 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import work.iwansyng.iwansyng.model.role.User;
 import work.iwansyng.iwansyng.repository.CourseRepository;
@@ -17,6 +15,8 @@ import work.iwansyng.iwansyng.repository.UserRepository;
 import work.iwansyng.iwansyng.service.IwanSyngUserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/admin")
@@ -30,15 +30,17 @@ public class AdminController {
     private final StudentRepository studentRepository;
 
     @GetMapping(value="/home")
-    public ModelAndView homeAdmin(){
-        ModelAndView modelAndView = new ModelAndView();
+    public String homeAdmin(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByUserName(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin/home");
+        Optional<String> username = Optional.ofNullable(auth.getName());
 
-        return modelAndView;
+        if (username.isEmpty()) {
+            return "login";
+        }
+
+        User user = userService.findUserByUserName(username.get());
+
+        return "redirect:/admin/dashboard/" + user.getUsername();
     }
 
     @GetMapping(value="/registration_admin")
@@ -68,6 +70,29 @@ public class AdminController {
 
         }
         modelAndView.setViewName("/admin/registration_admin");
+
+        return modelAndView;
+    }
+
+    //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
+    public ModelAndView adminHomePage(@PathVariable("Username") String username, Principal principal) {
+        Optional<String> name = Optional.ofNullable(username);
+        User user = null;
+        ModelAndView modelAndView = null;
+
+        if (!name.isPresent()) {
+            modelAndView = new ModelAndView();
+            modelAndView.setViewName("/error");
+            return modelAndView;
+        }
+
+        user = userRepository.findByUsername(name.get());
+
+        modelAndView = new ModelAndView();
+        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
+        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+        modelAndView.setViewName("admin/admin_dashboard");
 
         return modelAndView;
     }
