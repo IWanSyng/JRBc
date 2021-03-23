@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Bootstrap Input Password</title>
+
+<!--    <link th:rel="stylesheet" th:href="@{assets/password-strength-meter/password.min.css}"/>-->
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">BOOTCAMP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mt-5">
+            <form method="post" th:object="${user}">
+                <div class="form-group">
+                    <label for="username">Firstname</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="firstname" autocomplete="off"
+                               th:field="*{firstName}" onclick='check_firstname();'/>
+                        <span id='field_firstname'></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Lastname</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="lastname" autocomplete="off"
+                               th:field="*{lastName}" onclick='check_lastname();'/>
+                        <span id='field_lastname'></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="username" autocomplete="off"
+                               th:field="*{username}" onclick='check_username();'/>
+                        <span id='field_username'></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group" id="show_hide_password">
+                        <input type="password" class="form-control" id="password" autocomplete="off"
+                               onkeyup='check_length();'>
+                        <span id='message_length'></span>
+                        </input>
+<!--                        <div class="input-group-append">-->
+<!--                            <span class="input-group-text"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>-->
+<!--                        </div>-->
+                    </div>
+                    <label for="password">Confirm password:</label>
+                    <div class="input-group" id="show_hide_password_2">
+                        <input type="password" class="form-control" autocomplete="off"
+                               th:field="*{password}" name="confirm_password"
+                               id="confirm_password" onkeyup='check_equal();'/>
+                        <span id='message_not_equal'></span>
+<!--                        <div class="input-group-append">-->
+<!--                            <span class="input-group-text"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>-->
+<!--                        </div>-->
+                    </div>
+
+                </div>
+                <button class="btn btn-primary" type="submit">Submit form</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- TODO: second field for password confirmation -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<!--<script th:src="@{assets/password-strength-meter/password.min.js}"></script>-->
+
+<script>
+    // <input type="password" name="password" id="password" onChange='check_pass();'/>
+    // <input type="password" name="confirm_password" id="confirm_password" onChange='check_pass();'/>
+    // <input type="submit" name="submit" value="registration" id="submit" disabled/>
+
+    var check_password = function() {
+        if (document.getElementById('password').value ==
+            document.getElementById('confirm_password').value) {
+            document.getElementById('submit').disabled = false;
+        } else {
+            document.getElementById('submit').disabled = true;
+        }
+    }
+
+    var check_firstname = function() {
+        if (document.getElementById('firstname').value.length < 1) {
+            document.getElementById('field_firstname').style.color = 'red';
+            document.getElementById('field_firstname').innerHTML = ' field should not be empty';
+        }
+    }
+
+    var check_lastname = function() {
+        if (document.getElementById('lastname').value.length < 1) {
+            document.getElementById('field_lastname').style.color = 'red';
+            document.getElementById('field_lastname').innerHTML = ' field should not be empty';
+        }
+    }
+
+    var check_username = function() {
+        if (document.getElementById('username').value.length < 1) {
+            document.getElementById('field_username').style.color = 'red';
+            document.getElementById('field_username').innerHTML = ' field should not be empty';
+        }
+    }
+
+    var check_length = function() {
+        if (document.getElementById('password').value.length < 8) {
+            document.getElementById('message_length').style.color = 'red';
+            document.getElementById('message_length').innerHTML = ' length should be at least 8';
+        } else {
+            document.getElementById('message_length').style.color = 'white';
+            document.getElementById('message_length').innerHTML = '';
+        }
+    }
+
+    var check_equal = function () {
+        if (document.getElementById('password').value ===
+                document.getElementById('confirm_password').value) {
+            document.getElementById('message_not_equal').style.color = 'green';
+            document.getElementById('message_not_equal').innerHTML = ' passwords match';
+        } else {
+            document.getElementById('message_not_equal').style.color = 'red';
+            document.getElementById('message_not_equal').innerHTML = ' passwords do not match';
+        }
+    }
+
+    var input = $("#show_hide_password input");
+    var icon = $("#show_hide_password i");
+
+    icon.on('click', function (event) {
+        event.preventDefault();
+
+        if (input.attr("type") === "text") {
+            input.attr('type', 'password');
+            icon.addClass("fa-eye-slash");
+            icon.removeClass("fa-eye");
+
+        } else if (input.attr("type") === "password") {
+            input.attr('type', 'text');
+            icon.removeClass("fa-eye-slash");
+            icon.addClass("fa-eye");
+        }
+    });
+
+
+    // $('#password').password({
+    //     minimumLength: 8, // minimum password length (below this threshold, the score is 0)
+    //     closestSelector: '.form-group',
+    //     shortPass: 'The password is too short',
+    //     badPass: 'Weak; try combining letters & numbers',
+    //     goodPass: 'Medium; try using special characters',
+    //     strongPass: 'Strong password',
+    //     containsField: 'The password contains your username',
+    //     enterPass: 'Type your password',
+    //     steps: {
+    //         // Easily change the steps' expected score here
+    //         13: 'Really insecure password',
+    //         33: 'Weak; try combining letters & numbers',
+    //         67: 'Medium; try using special characters',
+    //         94: 'Strong password',
+    //     },
+    //     showPercent: false,
+    //     showText: true, // shows the text tips
+    //     animate: true, // whether or not to animate the progress bar on input blur/focus
+    //     animateSpeed: 'medium', // the above animation speed
+    //     field: false, // select the match field (selector or jQuery instance) for better password checks
+    //     fieldPartialMatch: true // whether to check for partials in field
+    // });
+</script>
+</body>
+</html>

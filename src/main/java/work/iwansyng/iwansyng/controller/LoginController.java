@@ -57,12 +57,12 @@ public class LoginController {
         return modelAndView;
     }
 
-    @GetMapping(value="/registration_admin")
+    @GetMapping(value="/admin/registration_admin")
     public ModelAndView registrationAdmin(){
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("registration_admin");
+        modelAndView.setViewName("/admin/registration_admin");
         return modelAndView;
     }
 
@@ -93,7 +93,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @PostMapping(value = "/registration_admin")
+    @PostMapping(value = "/admin/registration_admin")
     public ModelAndView createNewAdminUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByUserName(user.getUsername());
@@ -110,7 +110,7 @@ public class LoginController {
             modelAndView.addObject("user", new User());
 
         }
-        modelAndView.setViewName("registration_admin");
+        modelAndView.setViewName("/admin/registration_admin");
 
         return modelAndView;
     }
