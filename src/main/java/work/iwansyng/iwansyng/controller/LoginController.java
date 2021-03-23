@@ -28,13 +28,6 @@ public class LoginController {
         return "index";
     }
 
-//    @GetMapping(value = "/")
-//    public ModelAndView index(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("");
-//        return modelAndView;
-//    }
-
     @GetMapping(value= "/login")
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
@@ -54,15 +47,6 @@ public class LoginController {
         }
 
         modelAndView.setViewName("error");
-        return modelAndView;
-    }
-
-    @GetMapping(value="/admin/registration_admin")
-    public ModelAndView registrationAdmin(){
-        ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("/admin/registration_admin");
         return modelAndView;
     }
 

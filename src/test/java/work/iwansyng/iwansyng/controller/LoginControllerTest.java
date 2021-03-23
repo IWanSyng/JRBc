@@ -43,6 +43,9 @@ class LoginControllerTest {
     @Autowired
     private LoginController loginController;
 
+    @Autowired
+    private AdminController adminController;
+
     @BeforeEach
     void setup() {
         loginController = new LoginController(userService, configParamRepository);
@@ -76,7 +79,7 @@ class LoginControllerTest {
 
     @Test
     void registrationAdmin() {
-        ModelAndView modelAndView = loginController.registrationAdmin();
+        ModelAndView modelAndView = adminController.registrationAdmin();
         Assertions.assertEquals(modelAndView.getViewName(), "registration_admin");
     }
 }
