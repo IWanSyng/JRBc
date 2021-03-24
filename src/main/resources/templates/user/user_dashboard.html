@@ -89,8 +89,8 @@
                    style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
                 <thead>
                 <tr>
+                    <th style="text-align: center;">My Id</th>
                     <th style="text-align: center;">Course Name</th>
-                    <th style="text-align: center;">Unique Id</th>
                     <th style="text-align: center;"># Students</th>
                     <th style="text-align: center;">Start Date</th>
                     <th style="text-align: center;">End Date</th>
@@ -100,8 +100,8 @@
                 </thead>
                 <tbody>
                 <tr th:each="courseEnrolled : ${coursesEnrolled}">
+                    <td class="align-middle" style="width: 8%; text-align: center;" th:text="${student.uniqueId}">My Id</td>
                     <td class="align-middle" style="width: 20%;" th:text="${courseEnrolled.courseName}">Course Name</td>
-                    <td class="align-middle" style="width: 5%;" th:text="${student.uniqueId}">Unique Id</td>
                     <td class="align-middle" style="width: 10%; text-align: center;">
                         <span th:if="${courseEnrolled.numberOfStudents == 0}"></span>
                         <span th:text="${courseEnrolled.numberOfStudents}"></span>
@@ -112,7 +112,7 @@
                         th:text="${#dates.format(courseEnrolled.endDate, 'dd.MM.yyyy')}">End Date</td>
                     <td class="align-middle" style="width: 5%; text-align: center;"
                         th:text="${courseEnrolled.isActive} ? 'Yes' : 'No'">Active?</td>
-                    <td class="align-middle" style="width: 20%; text-align: center;">
+                    <td class="align-middle" style="width: 17%; text-align: center;">
                         <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">
                             <button type="button" class="btn btn-primary btn-sm">view course</button>
                         </a>

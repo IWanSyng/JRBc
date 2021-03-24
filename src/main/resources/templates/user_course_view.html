@@ -48,7 +48,7 @@
         <h5 th:text="'# of students enrolled: ' + ${course.numberOfStudents}"></h5>
         <h5 th:text="'Start date: ' + ${course.startDate}"></h5>
         <h5 th:text="'End date: ' + ${course.endDate}"></h5>
-        <h5 th:text="'add to my list of courses' + '?'"></h5>
+        <a th:if="${flag}" ><h5 th:text="'add to my list of courses' + '?'"></h5></a>
         <br>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -58,7 +58,6 @@
             </div>
             <div class="btn-group mr-2" role="group" style="margin-left: 10px; margin-right: 10px;" aria-label="Second group">
             </div>
-            <!-- IF STATEMENT HERE -->
             <div class="btn-group" role="group" aria-label="Third group">
                 <a style="margin-top: 20px" th:if="${flag}"
                     th:href="@{'/user/course/enroll/' + ${course.id}}">
