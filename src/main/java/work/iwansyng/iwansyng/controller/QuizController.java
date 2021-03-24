@@ -1,30 +1,35 @@
 package work.iwansyng.iwansyng.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import work.iwansyng.iwansyng.converter.GenericTypeAttributeConverter;
+import work.iwansyng.iwansyng.repository.CourseRepository;
 import work.iwansyng.iwansyng.repository.QuizRepository;
 import work.iwansyng.iwansyng.repository.UserRepository;
 import work.iwansyng.iwansyng.model.quiz.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
+@RequestMapping(path = "/quiz")
+@RequiredArgsConstructor
 public class QuizController {
 
-    @Autowired
-    QuizRepository quizRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    public QuizController(QuizRepository quizRepository) {
-        this.quizRepository = quizRepository;
-    }
+    private final QuizRepository quizRepository;
+    private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
 
     @GetMapping(path = "/quiz")
     public String addQuiz(Model model) {
         Quiz quiz = new Quiz();
         quiz.setName("First quiz");
+        quiz.setCourse(courseRepository.findCourseById(7L).get());
 
         QuizItem item1 = new QuizItemSingleAnswer("What is your name", "Santa", "Lauris", "Tom", "Maris");
         item1.addAnswer(2, 0);
@@ -52,13 +57,7 @@ public class QuizController {
         quiz.addQuizItem(item2);
         quiz.addQuizItem(item3);
 
-        Quiz quiz2 = new Quiz();
-        quiz2.setName("Second quiz");
-
-        QuizItem item21 = new QuizItemSingleAnswer("You are tired", "True", "False");
-        item21.addAnswer(0, 0);
-
-        quiz2.addQuizItem(item21);
+        quizRepository.save(quiz);
 
 //        List<User> users = userRepository.findAll();
 //         for (User user : users) {
@@ -83,6 +82,33 @@ public class QuizController {
 //            quizRepository.save(userQuiz);
 //            quizRepository.save(userQuiz2);
 //        }
-        return "quiz";
+        return "redirect:/quiz/test_quiz";
+    }
+
+    @RequestMapping(
+            value = "/quiz/test_quiz",
+            method = RequestMethod.GET,
+            produces = "application/json"
+    )
+    public String testQuizController() {
+        List<Quiz> quizzes = quizRepository.findAll()
+                .stream()
+                .filter(q -> q.getCourse().getId().equals(7L))
+                .collect(Collectors.toList());
+
+        System.out.println(quizzes.get(0).getName());
+
+        Quiz quiz = quizzes.get(0);
+        Quiz quizClone = quiz.getQuizWithoutAnswers();
+        //quizClone.setUser(user);
+
+        GenericTypeAttributeConverter genericTypeAttributeConverter = new GenericTypeAttributeConverter();
+        String jsonQuiz = genericTypeAttributeConverter.convertToDatabaseColumn(quizClone);
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.addObject("quizclone", quizClone);
+//        modelAndView.setViewName("test_quiz");
+//        // MODELANDVIEW object for HTML Page!!! JSONObject and convert HTML!!!
+
+        return jsonQuiz;
     }
 }

@@ -35,7 +35,7 @@ public class AdminController {
     @GetMapping(value="/home")
     public String adminHome(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<String> username = Optional.ofNullable(auth.getName());
+        Optional<String> username = getOptionalName(auth.getName());
 
         if (username.isEmpty()) {
             return "login";
@@ -49,7 +49,7 @@ public class AdminController {
     //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
     @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
     public ModelAndView adminHomePage(@PathVariable("Username") String username, Principal principal) {
-        Optional<String> name = Optional.ofNullable(username);
+        Optional<String> name = getOptionalName(username);
         User user = null;
         ModelAndView modelAndView = null;
 
@@ -62,8 +62,8 @@ public class AdminController {
         user = userRepository.findByUsername(name.get());
 
         modelAndView = new ModelAndView();
-        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+//        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
+//        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 
         List<Course> courses = courseRepository.findAll();
         Optional<Role> role = Optional.ofNullable(user.getRoles().stream().findFirst().orElse(null));
@@ -105,5 +105,9 @@ public class AdminController {
         modelAndView.setViewName("/admin/registration_admin");
 
         return modelAndView;
+    }
+
+    private Optional<String> getOptionalName(String objectName) {
+        return Optional.ofNullable(objectName);
     }
 }

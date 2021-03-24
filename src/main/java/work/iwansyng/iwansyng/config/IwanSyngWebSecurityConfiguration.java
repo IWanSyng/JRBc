@@ -38,6 +38,7 @@ public class IwanSyngWebSecurityConfiguration extends WebSecurityConfigurerAdapt
                 authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(loginPage).permitAll()
+                .antMatchers("/quiz/**").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/registration_admin").hasAuthority("ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
