@@ -26,7 +26,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping(path = "/admin/course")
 @RequiredArgsConstructor
-public class CourseController {
+public class AdminCourseController {
 
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
@@ -50,7 +50,7 @@ public class CourseController {
         }
 
         modelAndView.addObject("course", course.get());
-        modelAndView.setViewName("course");
+        modelAndView.setViewName("admin_course_view");
 
         return modelAndView;
     }
