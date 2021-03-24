@@ -33,7 +33,7 @@ public class AdminController {
     private final StudentRepository studentRepository;
 
     @GetMapping(value="/home")
-    public String homeAdmin(){
+    public String adminHome(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<String> username = Optional.ofNullable(auth.getName());
 
@@ -44,6 +44,36 @@ public class AdminController {
         User user = userService.findUserByUserName(username.get());
 
         return "redirect:/admin/dashboard/" + user.getUsername();
+    }
+
+    //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
+    public ModelAndView adminHomePage(@PathVariable("Username") String username, Principal principal) {
+        Optional<String> name = Optional.ofNullable(username);
+        User user = null;
+        ModelAndView modelAndView = null;
+
+        if (!name.isPresent()) {
+            modelAndView = new ModelAndView();
+            modelAndView.setViewName("/error");
+            return modelAndView;
+        }
+
+        user = userRepository.findByUsername(name.get());
+
+        modelAndView = new ModelAndView();
+        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
+        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
+
+        List<Course> courses = courseRepository.findAll();
+        Optional<Role> role = Optional.ofNullable(user.getRoles().stream().findFirst().orElse(null));
+
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("role", (role.isPresent() ? role.get().getRole() : ""));
+        modelAndView.addObject("courses", courses);
+        modelAndView.setViewName("admin/admin_dashboard");
+
+        return modelAndView;
     }
 
     @GetMapping(value="/registration_admin")
@@ -73,36 +103,6 @@ public class AdminController {
 
         }
         modelAndView.setViewName("/admin/registration_admin");
-
-        return modelAndView;
-    }
-
-    //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
-    @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
-    public ModelAndView adminHomePage(@PathVariable("Username") String username, Principal principal) {
-        Optional<String> name = Optional.ofNullable(username);
-        User user = null;
-        ModelAndView modelAndView = null;
-
-        if (!name.isPresent()) {
-            modelAndView = new ModelAndView();
-            modelAndView.setViewName("/error");
-            return modelAndView;
-        }
-
-        user = userRepository.findByUsername(name.get());
-
-        modelAndView = new ModelAndView();
-        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-
-        List<Course> courses = courseRepository.findAll();
-        Optional<Role> role = Optional.ofNullable(user.getRoles().stream().findFirst().orElse(null));
-
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("role", (role.isPresent() ? role.get().getRole() : ""));
-        modelAndView.addObject("courses", courses);
-        modelAndView.setViewName("admin/admin_dashboard");
 
         return modelAndView;
     }

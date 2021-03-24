@@ -1,6 +1,10 @@
 package work.iwansyng.iwansyng.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,32 +25,34 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/admin/course")
+@RequiredArgsConstructor
 public class CourseController {
 
-    @Autowired
-    CourseRepository courseRepository;
-
-    @Autowired
-    StudentRepository studentRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    InstructorRepository instructorRepository;
-
-    public CourseController(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
-    }
+    private final CourseRepository courseRepository;
+    private final StudentRepository studentRepository;
+    private final UserRepository userRepository;
+    private final InstructorRepository instructorRepository;
 
     /*
         TODO: similar code as above in course method,
           goes in StudentController
     */
 
-    @GetMapping
-    public String course() {
-        return "redirect:/admin/home";
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ModelAndView showCourseById(@PathVariable("id") Long id) {
+        Optional<Course> course =
+                Optional.ofNullable(courseRepository.findCourseById(id).get());
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (course.isEmpty()) {
+            modelAndView.setViewName("error");
+            return modelAndView;
+        }
+
+        modelAndView.addObject("course", course.get());
+        modelAndView.setViewName("course");
+
+        return modelAndView;
     }
 
     @GetMapping(path = "/add_course")

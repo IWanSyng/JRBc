@@ -14,7 +14,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
-        <a class="navbar-brand" href="/">Course List</a>
+        <a class="navbar-brand" href="/">Bootcamp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +30,7 @@
     </div>
 </nav>
 <!--if course is addded/created-->
-<!--then non-admin users can retreive it from the list-->
+<!--then non-admin users can retrieve it from the list-->
 <!--and enroll in it , thus becoming students-->
 <!--instead of "add new"-->
 <!--just do "view"-->
@@ -44,12 +44,13 @@
         <h5 th:text="'Signed in as: ' + ${role}"></h5>
         <h5 th:text="'Username: ' + ${user.getUsername()}"></h5>
         <h5 th:text="'Name: ' + ${user.getFirstName()} + ' ' + ${user.getLastName()}"></h5>
-        <hr style="width: 85%;"></hr>
         <div class="col-lg-10 mt-5 mb-5">
+            <h3 style="text-align: center; margin:auto;">Course List</h3>
             <table id="example" class="table table-bordered table-hover -align-center"
-                   style="width: 100%; margin-left:auto; margin-right:auto;">
+                   style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
                 <thead>
                 <tr>
+                    <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Course Name</th>
                     <th style="text-align: center;"># Students</th>
                     <th style="text-align: center;">Start Date</th>
@@ -60,15 +61,23 @@
                 </thead>
                 <tbody>
                 <tr th:each="course : ${courses}">
-                    <td style="width: 25%;" th:text="${course.courseName}">Course Name</td>
-                    <td style="width: 10%; text-align: center;">
+                    <td class="align-middle" style="width: 5%; text-align: center;" th:text="${course.id}">Id</td>
+                    <td class="align-middle" style="width: 25%;" th:text="${course.courseName}">Course Name</td>
+                    <td class="align-middle" style="width: 10%; text-align: center;">
                         <span th:if="${course.numberOfStudents == 0}"></span>
                         <span th:text="${course.numberOfStudents}"></span>
                     </td>
-                    <td style="width: 20%; text-align: center;" th:text="${#dates.format(course.startDate, 'dd.MM.yyyy')}">Start Date</td>
-                    <td style="width: 20%; text-align: center;" th:text="${#dates.format(course.endDate, 'dd.MM.yyyy')}">End Date</td>
-                    <td style="width: 10%; text-align: center;" th:text="${course.isActive} ? 'Yes' : 'No'">Active?</td>
-                    <td style="width: 10%; text-align: center;"><button type="button" class="btn btn-primary btn-sm">view course</button></td>
+                    <td class="align-middle" style="width: 20%; text-align: center;"
+                        th:text="${#dates.format(course.startDate, 'dd.MM.yyyy')}">Start Date</td>
+                    <td class="align-middle" style="width: 20%; text-align: center;"
+                        th:text="${#dates.format(course.endDate, 'dd.MM.yyyy')}">End Date</td>
+                    <td class="align-middle" style="width: 5%; text-align: center;"
+                        th:text="${course.isActive} ? 'Yes' : 'No'">Active?</td>
+                    <td class="align-middle" style="width: 10%; text-align: center;">
+                            <a th:href="@{'/admin/course/' + ${course.id}}">
+                                <button type="button" class="btn btn-primary btn-sm">view course</button>
+                            </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
