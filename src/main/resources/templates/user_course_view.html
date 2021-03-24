@@ -58,8 +58,10 @@
             </div>
             <div class="btn-group mr-2" role="group" style="margin-left: 10px; margin-right: 10px;" aria-label="Second group">
             </div>
+            <!-- IF STATEMENT HERE -->
             <div class="btn-group" role="group" aria-label="Third group">
-                <a style="margin-top: 20px" th:href="@{'/user/course/enroll/' + ${course.id}}">
+                <a style="margin-top: 20px" th:if="${flag}"
+                    th:href="@{'/user/course/enroll/' + ${course.id}}">
                     <button type="button" class="btn btn-primary btn-md">enroll</button>
                 </a>
             </div>
@@ -68,3 +70,8 @@
 </div>
 </body>
 </html>
+
+<!--<td class="align-middle" style="width: 10%; text-align: center;">-->
+<!--    <span th:if="${courseEnrolled.numberOfStudents == 0}"></span>-->
+<!--    <span th:text="${courseEnrolled.numberOfStudents}"></span>-->
+<!--</td>-->

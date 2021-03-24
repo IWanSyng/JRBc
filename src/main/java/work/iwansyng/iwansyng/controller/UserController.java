@@ -72,7 +72,7 @@ public class UserController {
 
         // get a list of courses where the student.user.id == user.id
         // and remove course from allCourses if enrolled
-        List<Course> courses = courseRepository.findAll();
+        List<Course> courses = new ArrayList<>(allCourses);
         List<Course> coursesEnrolled = new ArrayList<>();
         for (Course course : courses) {
             for (Student student : students) {
@@ -83,9 +83,11 @@ public class UserController {
             }
         }
 
+        allCourses.removeIf(c -> c.getIsActive() == false);
         modelAndView.addObject("courses", allCourses);
         modelAndView.addObject("coursesEnrolled", coursesEnrolled);
         modelAndView.addObject("user", user);
+        modelAndView.addObject("student", students.get(0));
         modelAndView.addObject("role", (role.isPresent() ? role.get().getRole() : ""));
         modelAndView.setViewName("user/user_dashboard");
 

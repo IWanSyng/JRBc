@@ -20,6 +20,8 @@ import work.iwansyng.iwansyng.repository.UserRepository;
 
 import java.security.Principal;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(path = "/user/course")
@@ -48,11 +50,15 @@ public class UserCourseController {
             User user = userRepository.findByUsername(authUsername.get());
             Student s = new Student();
 
-            s.setCourse(course.get());
-            Integer uniqueId = new Random().nextInt() % 65535;
-            s.setUniqueId((uniqueId < 0 ? uniqueId * -1 : uniqueId));
+            Course c = course.get();
+            Integer noStudents = c.getNumberOfStudents();
+            noStudents++;
+            c.setNumberOfStudents(noStudents);
+            s.setCourse(c);
+            s.setUniqueId(noStudents);
             s.setUser(user);
 
+            courseRepository.save(c);
             studentRepository.save(s);
         }
 
@@ -61,6 +67,16 @@ public class UserCourseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView showCourseById(@PathVariable("id") Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<String> authUsername = getOptionalName(auth.getName());
+        User user = userRepository.findByUsername(authUsername.get());
+
+        List<Student> students = studentRepository.findAll()
+                .stream()
+                .filter(s -> s.getCourse().getId().equals(id)
+                    && s.getUser().getId().equals(user.getId()))
+                .collect(Collectors.toList());
+
         Optional<Course> course =
                 Optional.ofNullable(courseRepository.findCourseById(id).get());
         ModelAndView modelAndView = new ModelAndView();
@@ -68,6 +84,12 @@ public class UserCourseController {
         if (course.isEmpty()) {
             modelAndView.setViewName("error");
             return modelAndView;
+        }
+
+        if (students.isEmpty()) {
+            modelAndView.addObject("flag", true);
+        } else {
+            modelAndView.addObject("flag", false);
         }
 
         modelAndView.addObject("course", course.get());
