@@ -62,8 +62,6 @@ public class AdminController {
         user = userRepository.findByUsername(name.get());
 
         modelAndView = new ModelAndView();
-//        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
-//        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 
         List<Course> courses = courseRepository.findAll();
         Optional<Role> role = Optional.ofNullable(user.getRoles().stream().findFirst().orElse(null));

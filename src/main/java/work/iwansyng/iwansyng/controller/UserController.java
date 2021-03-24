@@ -21,6 +21,7 @@ import work.iwansyng.iwansyng.repository.UserRepository;
 import work.iwansyng.iwansyng.service.IwanSyngUserService;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,20 +34,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final IwanSyngUserService userService;
     private final CourseRepository courseRepository;
-    private final InstructorRepository instructorRepository;
     private final StudentRepository studentRepository;
-
-//    @GetMapping(value="/home")
-//    public ModelAndView homeUser(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = userService.findUserByUserName(auth.getName());
-//        modelAndView.addObject("userName", "Welcome " + user.getUsername() + "/" + user.getFirstName() + " " + user.getLastName());
-//        modelAndView.addObject("userMessage","Content Available Only for Users with User Role");
-//        modelAndView.setViewName("user/home");
-//
-//        return modelAndView;
-//    }
 
     @GetMapping(value="/home")
     public String userHome(){
@@ -62,7 +50,6 @@ public class UserController {
         return "redirect:/user/dashboard/" + user.getUsername();
     }
 
-    //@RequestMapping(value = "/dashboard", params = { "id", "Username" }, method = RequestMethod.GET)
     @RequestMapping(value = "/dashboard/{Username}", method = RequestMethod.GET)
     public ModelAndView userHomePage(@PathVariable("Username") String username, Principal principal) {
         Optional<String> name = getOptionalName(username);
@@ -75,39 +62,29 @@ public class UserController {
 
         User user = userRepository.findByUsername(name.get());
 
-        Student s = new Student();
-        s.setCourse(courseRepository.findCourseById(13L).get());
-        s.setUniqueId((Integer) 19009);
-        s.setUser(user);
-        studentRepository.save(s);
-
-        s = new Student();
-        s.setCourse(courseRepository.findCourseById(6L).get());
-        s.setUniqueId((Integer) 19010);
-        s.setUser(user);
-
-        studentRepository.save(s);
-
         List<Student> students = studentRepository.findAll()
                 .stream()
                 .filter((st) -> st.getUser().getId().equals(user.getId()))
                 .collect(Collectors.toList());
 
         List<Course> allCourses = courseRepository.findAll();;
-        modelAndView.addObject("courses", allCourses);
-
         Optional<Role> role = Optional.ofNullable(user.getRoles().stream().findFirst().orElse(null));
 
-        Optional<Student> student = studentRepository.findById(s.getId());
-        if (student.isPresent()) {
-            // get a list of courses where the student.user.id == user.id
-            List<Course> coursesEnrolled = courseRepository.findAll()
-                    .stream()
-                    .filter(c -> c.getId().equals(student.get().getCourse().getId()))
-                    .collect(Collectors.toList());
-            modelAndView.addObject("coursesEnrolled", coursesEnrolled);
+        // get a list of courses where the student.user.id == user.id
+        // and remove course from allCourses if enrolled
+        List<Course> courses = courseRepository.findAll();
+        List<Course> coursesEnrolled = new ArrayList<>();
+        for (Course course : courses) {
+            for (Student student : students) {
+                if (course.getId() == student.getCourse().getId()) {
+                    coursesEnrolled.add(course);
+                    allCourses.remove(course);
+                }
+            }
         }
 
+        modelAndView.addObject("courses", allCourses);
+        modelAndView.addObject("coursesEnrolled", coursesEnrolled);
         modelAndView.addObject("user", user);
         modelAndView.addObject("role", (role.isPresent() ? role.get().getRole() : ""));
         modelAndView.setViewName("user/user_dashboard");
@@ -115,7 +92,7 @@ public class UserController {
         return modelAndView;
     }
 
-    private Optional<String> getOptionalName(String objectName) {
-        return Optional.ofNullable(objectName);
+    private Optional<String> getOptionalName(String optionalName) {
+        return Optional.ofNullable(optionalName);
     }
 }

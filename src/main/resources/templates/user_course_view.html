@@ -50,9 +50,20 @@
         <h5 th:text="'End date: ' + ${course.endDate}"></h5>
         <h5 th:text="'add to my list of courses' + '?'"></h5>
         <br>
-        <a style="margin-top: 20px" th:href="@{/user/home}">
-            <button type="button" class="btn btn-primary btn-sm">back</button>
-        </a>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <a style="margin-top: 20px" th:href="@{/user/home}">
+                    <button type="button" class="btn btn-primary btn-md">back</button>
+                </a>
+            </div>
+            <div class="btn-group mr-2" role="group" style="margin-left: 10px; margin-right: 10px;" aria-label="Second group">
+            </div>
+            <div class="btn-group" role="group" aria-label="Third group">
+                <a style="margin-top: 20px" th:href="@{'/user/course/enroll/' + ${course.id}}">
+                    <button type="button" class="btn btn-primary btn-md">enroll</button>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 </body>
