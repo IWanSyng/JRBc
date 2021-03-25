@@ -34,8 +34,8 @@
         <div class="col-lg-10 mt-5 mb-5" th:each="quiz : ${quizList}">
             <h5 style="text-align: center; margin:auto;"></h5>
             <h5 th:text="'Quiz Id: ' + ${quiz.id}"></h5>
-            <h5 th:text="'Quiz Start Date: ' + ${#dates.format(quiz.getScheduleStart(), 'dd.MM.yyyy')}"></h5>
-            <h5 th:text="'Quiz End Date: ' + ${#dates.format(quiz.getScheduleEnd(), 'dd.MM.yyyy')}"></h5>
+            <h5 th:text="'Quiz Start Date: ' + ${#dates.format(quiz.getScheduleStart(), 'dd.MM.yyyy, HH:mm')}"></h5>
+            <h5 th:text="'Quiz End Date: ' + ${#dates.format(quiz.getScheduleEnd(), ' dd.MM.yyyy, HH:mm')}"></h5>
             <h5 th:text="${quiz.getName()}"></h5>
             <div class="col-lg-10 mt-5 mb-5">
                 <div style="margin:auto" th:each="quizItem, quizItemStat : ${quiz.getQuizItems()}">
