@@ -40,10 +40,10 @@ public class QuizController {
         QuizItem firstQuestion = new QuizItem(AnswerType.SINGLE, "What is your name?", "Lauris", "Santa", "Maris", "Tom");
 
         QuizItem secondQuestion = new QuizItem(AnswerType.MULTIPLE, "What is your name?", "Lauris2", "Santa2", "Maris2", "Tom2");
-        secondQuestion.questionAnswerMap.put("Lauris2", "");
-        secondQuestion.questionAnswerMap.put("Santa2", "");
-        secondQuestion.questionAnswerMap.put("Maris2", "");
-        secondQuestion.questionAnswerMap.put("Tom2", "");
+//        secondQuestion.questionAnswerMap.put("Lauris2", "");
+//        secondQuestion.questionAnswerMap.put("Santa2", "");
+//        secondQuestion.questionAnswerMap.put("Maris2", "");
+//        secondQuestion.questionAnswerMap.put("Tom2", "");
 
         quiz.addQuizItem(firstQuestion);
         quiz.addQuizItem(secondQuestion);
