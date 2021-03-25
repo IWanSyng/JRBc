@@ -53,7 +53,7 @@ public class QuizController {
     }
 
     @GetMapping(path = "admin/{id}/view")
-    public ModelAndView getQuizView(@PathVariable("id") Long id) {
+    public ModelAndView getAdminQuizView(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         Optional<Quiz> quiz = Optional.ofNullable(quizRepository.findById(id).get());
 
@@ -64,6 +64,31 @@ public class QuizController {
 
         modelAndView.addObject("quiz", quiz.get());
         modelAndView.setViewName("admin/quiz_view");
+
+        return modelAndView;
+    }
+
+    @GetMapping(path = "user/{id}/view")
+    public ModelAndView getUserQuizView(@PathVariable("id") Long id, Principal principal) {
+        // Course id comes in here
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<String> currentUser = Optional.ofNullable(principal.getName());
+        User user = userRepository.findByUsername(currentUser.get());
+        Optional<Course> course = Optional.ofNullable(courseRepository.findById(id).get());
+
+        List<Quiz> quizList = quizRepository.findAll()
+                .stream()
+                .filter(q -> q.getCourse().getId().equals(course.get().getId()))
+                .filter(q -> q.getUser().getId().equals(user.getId()))
+                .collect(Collectors.toList());
+
+        if (quizList.isEmpty()) {
+            modelAndView.setViewName("error");
+            return modelAndView;
+        }
+
+        modelAndView.addObject("quiz", quizList.get(0));
+        modelAndView.setViewName("user/quiz_view");
 
         return modelAndView;
     }
@@ -121,8 +146,3 @@ public class QuizController {
         return "quiz_view";
     }
 }
-
-//    For Admin /quiz/3/all
-//        Displays a table of quizzes
-//        where course.id == currentCourse.id;
-//        where user.id == currentUser.id;

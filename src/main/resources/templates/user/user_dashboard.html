@@ -119,10 +119,10 @@
                             </a>
                         </span>
                         <span th:if="${not courseEnrolled.getIsActive()}">
-<!--                            <a th:href="@{'/user/course/results' + ${courseEnrolled.id}}">-->
+                            <a th:href="@{'/quiz/user/' + ${courseEnrolled.id} + '/view/'}">
                                 <button type="button" class="btn btn-success btn-sm"
                                         data-toggle="modal" data-target="#resultsModal">view results</button>
-<!--                            </a>-->
+                            </a>
                         </span>
                     </td>
                 </tr>

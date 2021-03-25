@@ -35,20 +35,12 @@
 </nav>
 <div class="container-md">
     <div class="row">
-        <h5 style="margin-top: 20px" th:text="${course.courseName}"></h5>
-        <h5>Description: </h5>
-        <pre>
-            Sed a neque non nibh malesuada aliquam ac sit amet justo. Quisque et tempor nulla.
-            Etiam et turpis id nisl porttitor pellentesque ac in nisi. Aenean eleifend venenatis
-            volutpat. Donec eget lectus at lacus lacinia accumsan at eu massa. Morbi porttitor
-            quam elementum, tincidunt ex in, dapibus quam. Duis tempus quis lectus sed ornare.
-            Quisque vitae suscipit libero. Pellentesque habitant morbi tristique senectus et
-            netus et malesuada fames ac turpis egestas.
-        </pre>
-        <h5 th:text="'# of students enrolled: ' + ${course.numberOfStudents}"></h5>
-        <h5 th:text="'Start date: ' + ${course.startDate}"></h5>
-        <h5 th:text="'End date: ' + ${course.endDate}"></h5>
-        <a th:if="${flag}" ><h5 th:text="'add to my list of courses' + '?'"></h5></a>
+        <!-- Student's unique id formated with u + id -->
+        <h3 style="margin-top: 20px" th:text="${course.courseName}"></h3>
+        <h3 th:text="'# of students enrolled: ' + ${course.numberOfStudents}"></h3>
+        <h3 th:text="'Start date: ' + ${course.startDate}"></h3>
+        <h3 th:text="'End date: ' + ${course.endDate}"></h3>
+        <a th:if="${flag}" ><h3 th:text="'add to my list of courses' + '?'"></h3></a>
         <br>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -62,6 +54,10 @@
                 <a style="margin-top: 20px" th:if="${flag}"
                     th:href="@{'/user/course/enroll/' + ${course.id}}">
                     <button type="button" class="btn btn-primary btn-md">enroll</button>
+                </a>
+                <a style="margin-top: 20px" th:if="${not flag}"
+                   th:href="@{'/user/' + ${course.id} + '/view'}">
+                    <button type="button" class="btn btn-primary btn-md">take test</button>
                 </a>
             </div>
         </div>
