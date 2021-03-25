@@ -3,14 +3,15 @@ package work.iwansyng.iwansyng.converter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import work.iwansyng.iwansyng.model.quiz.QuizItem;
 
 import javax.persistence.AttributeConverter;
 
-public class GenericTypeAttributeConverter implements AttributeConverter<Object, String> {
+public class QuizItemAttributeConverter implements AttributeConverter<QuizItem, String> {
 
     @SneakyThrows
     @Override
-    public String convertToDatabaseColumn(Object entityValue) {
+    public String convertToDatabaseColumn(QuizItem entityValue) {
         if (entityValue == null)
             return null;
 
@@ -20,7 +21,7 @@ public class GenericTypeAttributeConverter implements AttributeConverter<Object,
 
     @SneakyThrows
     @Override
-    public Object convertToEntityAttribute(String databaseValue) {
+    public QuizItem convertToEntityAttribute(String databaseValue) {
         if (databaseValue == null)
             return null;
 

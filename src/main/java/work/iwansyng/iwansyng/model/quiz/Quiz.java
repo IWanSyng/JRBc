@@ -3,7 +3,7 @@ package work.iwansyng.iwansyng.model.quiz;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import work.iwansyng.iwansyng.converter.GenericTypeAttributeConverter;
+import work.iwansyng.iwansyng.converter.QuizItemListAttributeConverter;
 import work.iwansyng.iwansyng.model.*;
 import work.iwansyng.iwansyng.model.role.User;
 
@@ -30,7 +30,7 @@ public class Quiz {
     private Course course;
 
     @Column(columnDefinition = "JSON")
-    @Convert(converter = GenericTypeAttributeConverter.class)
+    @Convert(converter = QuizItemListAttributeConverter.class)
     private List<QuizItem> quizItems = new ArrayList<>();
 
 

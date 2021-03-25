@@ -15,16 +15,4 @@ public class QuizItemMultiAnswer extends QuizItem {
     public AnswerType getAnswerType() {
         return answerType;
     }
-
-    @Override
-    public void addAnswer(int answerLineIndex, int questionLineIndex) {
-        if (this.questionAnswerMap.size() < getAnswerCandidateLines().size())
-            this.questionAnswerMap.put(answerLineIndex, questionLineIndex);
-    }
-
-    @Override
-    public void removeAnswer(int answerLineIndex, int questionLineIndex) {
-        if (this.questionAnswerMap.containsKey(answerLineIndex))
-            this.questionAnswerMap.remove(answerLineIndex, questionLineIndex);
-    }
 }

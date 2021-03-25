@@ -3,9 +3,7 @@ package work.iwansyng.iwansyng.model.quiz;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import work.iwansyng.iwansyng.converter.GenericTypeAttributeConverter;
 
-import javax.persistence.Convert;
 import java.util.*;
 
 @Getter
@@ -13,17 +11,13 @@ import java.util.*;
 @NoArgsConstructor
 public class QuizItem implements Answerable, Cloneable {
 
-    @Convert(converter = GenericTypeAttributeConverter.class)
     private List<String> questionLines = new ArrayList<>();
 
-    @Convert(converter = GenericTypeAttributeConverter.class)
     private List<String> answerCandidateLines = new ArrayList<>();
 
-    @Convert(converter = GenericTypeAttributeConverter.class)
-    AnswerType answerType;
+    public AnswerType answerType;
 
-    @Convert(converter = GenericTypeAttributeConverter.class)
-    protected Map<Integer, Integer> questionAnswerMap = new HashMap<>();
+    public Map<String, String> questionAnswerMap = new HashMap<>();
 
     public QuizItem(String questionString, String... answerStrings) {
         if (questionString == null)
@@ -35,16 +29,6 @@ public class QuizItem implements Answerable, Cloneable {
 
         this.questionLines.add(questionString);
         Collections.addAll(this.answerCandidateLines, answerStrings);
-    }
-
-    @Override
-    public void addAnswer(int answerLineIndex, int questionLineIndex) {
-        questionAnswerMap.put(answerLineIndex, questionLineIndex);
-    }
-
-    @Override
-    public void removeAnswer(int answerLineIndex, int questionLineIndex) {
-        questionAnswerMap.remove(answerLineIndex, questionLineIndex);
     }
 
     public void addAnswerCandidateLine(String answerCandidateLine) {

@@ -1,114 +1,76 @@
 package work.iwansyng.iwansyng.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import work.iwansyng.iwansyng.converter.GenericTypeAttributeConverter;
+import work.iwansyng.iwansyng.model.Course;
 import work.iwansyng.iwansyng.repository.CourseRepository;
 import work.iwansyng.iwansyng.repository.QuizRepository;
 import work.iwansyng.iwansyng.repository.UserRepository;
 import work.iwansyng.iwansyng.model.quiz.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Date;
 
 @Controller
-@RequestMapping(path = "/quiz")
 @RequiredArgsConstructor
+@SessionAttributes("quiz")
 public class QuizController {
 
     private final QuizRepository quizRepository;
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
-    @GetMapping(path = "/quiz")
+    @GetMapping(path = "/quiz_preview")
     public String addQuiz(Model model) {
         Quiz quiz = new Quiz();
         quiz.setName("First quiz");
-        quiz.setCourse(courseRepository.findCourseById(7L).get());
+        quiz.setCourse(new Course());
 
-        QuizItem item1 = new QuizItemSingleAnswer("What is your name", "Santa", "Lauris", "Tom", "Maris");
-        item1.addAnswer(2, 0);
+        quiz.setScheduleStart(new Date(System.currentTimeMillis()));
+        quiz.setScheduleEnd(new Date(System.currentTimeMillis()));
 
-        QuizItem item2 = new QuizItemMultiAnswer("What are the most important things in your life?",
-                "Alcohol", "Programming", "Music");
-        item2.addAnswer(1, 0);
-        item2.addAnswer(0, 0);
+        QuizItem firstQuestion = new QuizItemSingleAnswer("What is your name?", "Lauris", "Santa", "Maris", "Tom");
+        firstQuestion.questionAnswerMap.put("Lauris", "");
+        firstQuestion.questionAnswerMap.put("Santa", "");
+        firstQuestion.questionAnswerMap.put("Maris", "");
+        firstQuestion.questionAnswerMap.put("Tom", "");
 
-        QuizItem item3 = new QuizItemMapAnswer("Woman", "White");
-        item3.addQuestionLine("Black");
-        item3.addQuestionLine("Sour");
-        item3.addQuestionLine("Wet");
+        QuizItem secondQuestion = new QuizItemMultiAnswer("What is your name?", "Lauris2", "Santa2", "Maris2", "Tom2");
+        secondQuestion.questionAnswerMap.put("Lauris2", "");
+        secondQuestion.questionAnswerMap.put("Santa2", "");
+        secondQuestion.questionAnswerMap.put("Maris2", "");
+        secondQuestion.questionAnswerMap.put("Tom2", "");
 
-        item3.addAnswerCandidateLine("Sweet");
-        item3.addAnswerCandidateLine("Dry");
-        item3.addAnswerCandidateLine("White");
+        quiz.addQuizItem(firstQuestion);
+        quiz.addQuizItem(secondQuestion);
+        model.addAttribute("quiz", quiz);
 
-        item3.addAnswer(0, 1);
-        item3.addAnswer(1, 2);
-        item3.addAnswer(2, 3);
-        item3.addAnswer(3, 0);
 
-        quiz.addQuizItem(item1);
-        quiz.addQuizItem(item2);
-        quiz.addQuizItem(item3);
+//        quizRepository.save(quiz);
 
-        quizRepository.save(quiz);
-
-//        List<User> users = userRepository.findAll();
-//         for (User user : users) {
-//             if (!user.getIsEnabled() || user.getRole().getRoleName().equals("USER"))
-//                 continue;
-//
-//             quiz.setUser(user);
-//             quiz2.setUser(user);
-//
-//             quizRepository.save(quiz);
-//             quizRepository.save(quiz2);
-//         }
-//
-//        for (User user : users) {
-//            if (!user.getIsEnabled() || user.getRole().getRoleName().equals("ADMIN"))
-//                continue;
-//
-//            quiz.setUser(user);
-//            quiz2.setUser(user);
-//            Quiz userQuiz = quiz.getQuizWithoutAnswers();
-//            Quiz userQuiz2 = quiz2.getQuizWithoutAnswers();
-//            quizRepository.save(userQuiz);
-//            quizRepository.save(userQuiz2);
-//        }
-        return "redirect:/quiz/test_quiz";
+        return "quiz_preview";
     }
 
-    @RequestMapping(
-            value = "/quiz/test_quiz",
-            method = RequestMethod.GET,
-            produces = "application/json"
-    )
-    public String testQuizController() {
-        List<Quiz> quizzes = quizRepository.findAll()
-                .stream()
-                .filter(q -> q.getCourse().getId().equals(7L))
-                .collect(Collectors.toList());
+    @PostMapping("/quiz_preview")
+    public String submitTest(@ModelAttribute(value = "quiz") Quiz quiz, Model model) {
+        System.out.println(quiz);
+        return "quiz_preview";
+    }
 
-        System.out.println(quizzes.get(0).getName());
-
-        Quiz quiz = quizzes.get(0);
-        Quiz quizClone = quiz.getQuizWithoutAnswers();
-        //quizClone.setUser(user);
-
-        GenericTypeAttributeConverter genericTypeAttributeConverter = new GenericTypeAttributeConverter();
-        String jsonQuiz = genericTypeAttributeConverter.convertToDatabaseColumn(quizClone);
+//    @GetMapping(path = "/quiz_test", produces= MediaType.APPLICATION_JSON_VALUE)
+//    public ModelAndView testQuizController() {
+//        List<Quiz> quizzes = quizRepository.findAll()
+//                .stream()
+//                .filter(q -> q.getCourse().getId().equals(6L))
+//                .collect(Collectors.toList());
+//
+//
+//        Quiz quiz = quizzes.get(0);
+//        Quiz quizClone = quiz.getQuizWithoutAnswers();
 //        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.addObject("quizclone", quizClone);
-//        modelAndView.setViewName("test_quiz");
-//        // MODELANDVIEW object for HTML Page!!! JSONObject and convert HTML!!!
-
-        return jsonQuiz;
-    }
+//        modelAndView.addObject(quiz);
+//        modelAndView.setViewName("quiz_test");
+//
+//        return modelAndView;
+//    }
 }
