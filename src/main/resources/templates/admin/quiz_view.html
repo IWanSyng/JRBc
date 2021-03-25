@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Bootcamp Course List</title>
+
+    <!--    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous">
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Bootcamp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<form action="#" th:action="@{/quiz/quiz_view}" th:object="${quiz}" method="post">
+    <div class="container-lg">
+        <div class="modal-dialog modal-lg">
+            <h5 th:text="${quiz.getName()}">Quiz Name</h5>
+            <div style="margin-top: 5px; margin-bottom: 5px;" th:each="quizItem, quizItemStat : *{quizItems}" class="modal-content">
+                <div class="model-header">
+                    <p style="margin-top: 5px; margin-left: 5px;" th:text="${quizItem.getQuestionLines.get(0)}"></p>
+                </div>
+                <div th:if="${quizItem.getAnswerType().ordinal()} == '0'" th:each="answer, answerStat : ${quizItem.answerCandidateLines}" class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" th:value="${answer}" th:field="*{quizItems[__${quizItemStat.index}__].submittedAnswers}">
+                        <label th:text="${answer}"></label>
+                    </div>
+                </div>
+                <div th:if="${quizItem.getAnswerType().ordinal()} == '1'" th:each="answer, answerStat : ${quizItem.answerCandidateLines}" class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" th:value="0"
+                               th:field="*{quizItems[__${quizItemStat.index}__].questionAnswerMap[__${answer}__]}">
+                        <label th:text="${answer}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="container-md" style="margin-top: 20px;">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit" name="submit" value="${quiz}">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function getCorrectAnswer(radioGroupName, answersID) {
+    }
+
+    let theButton;
+    function getButtonId(id) {
+        let button = document.getElementById(id);
+        theButton = button;
+    }
+    function setAnswerValue(id){
+        let button = document.getElementById(id);
+        theButton.textContent = button.textContent
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+
+</body>
+</html>

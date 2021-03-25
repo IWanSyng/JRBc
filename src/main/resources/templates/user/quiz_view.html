@@ -34,9 +34,9 @@
     <div class="container-lg">
         <div class="modal-dialog modal-lg">
             <h5 th:text="${quiz.getName()}">Quiz Name</h5>
-            <div th:each="quizItem, quizItemStat : *{quizItems}" class="modal-content">
+            <div style="margin-top: 5px; margin-bottom: 5px;" th:each="quizItem, quizItemStat : *{quizItems}" class="modal-content">
                 <div class="model-header">
-                    <p th:text="${quizItem.getQuestionLines.get(0)}">Quiz Question</p>
+                    <p style="margin-top: 5px; margin-left: 5px;" th:text="${quizItem.getQuestionLines.get(0)}"></p>
                 </div>
                 <div th:if="${quizItem.getAnswerType().ordinal()} == '0'" th:each="answer, answerStat : ${quizItem.answerCandidateLines}" class="modal-body">
                     <div class="form-check">

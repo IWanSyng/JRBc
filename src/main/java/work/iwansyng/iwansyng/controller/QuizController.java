@@ -52,7 +52,7 @@ public class QuizController {
         return "quiz_view";
     }
 
-    @GetMapping(path = "{id}/view")
+    @GetMapping(path = "admin/{id}/view")
     public ModelAndView getQuizView(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         Optional<Quiz> quiz = Optional.ofNullable(quizRepository.findById(id).get());
@@ -63,7 +63,7 @@ public class QuizController {
         }
 
         modelAndView.addObject("quiz", quiz.get());
-        modelAndView.setViewName("quiz_view");
+        modelAndView.setViewName("admin/quiz_view");
 
         return modelAndView;
     }

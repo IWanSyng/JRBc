@@ -55,7 +55,7 @@
                         <td class="align-middle" style="width: 20%; text-align: center;"
                             th:text="${#dates.format(quiz.scheduleEnd, 'dd.MM.yyyy, HH:mm')}"></td>
                         <td class="align-middle" style="width: 20%; text-align: center;">
-                            <a th:href="@{'/quiz/' + ${quiz.id} + '/view'}">
+                            <a th:href="@{'/quiz/admin/' + ${quiz.id} + '/view'}">
                                 <button type="button" class="btn btn-info btn-sm">view quiz</button>
                             </a>
                         </td>
