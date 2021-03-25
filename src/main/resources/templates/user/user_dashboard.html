@@ -46,7 +46,7 @@
         <h5 th:text="'Username: ' + ${user.getUsername()}"></h5>
         <h5 th:text="'Name: ' + ${user.getFirstName()} + ' ' + ${user.getLastName()}"></h5>
         <div class="col-lg-10 mt-5 mb-5">
-            <h3 style="text-align: center; margin:auto;">Available Courses</h3>
+            <h3 style="text-align: center; margin: auto;">Available Courses</h3>
             <table id="example" class="table table-bordered table-hover -align-center"
                    style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
                 <thead>
@@ -83,7 +83,6 @@
                 </tbody>
             </table>
             <br>
-            <br>
             <h3 style="text-align: center; margin:auto;">Courses Enrolled</h3>
             <table id="example" class="table table-bordered table-hover -align-center"
                    style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
@@ -99,8 +98,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="courseEnrolled : ${coursesEnrolled}">
-                    <td class="align-middle" style="width: 8%; text-align: center;" th:text="${student_id}">My Id</td>
+                <tr th:each="courseEnrolled, i : ${coursesEnrolled}">
+                    <td class="align-middle" style="width: 8%; text-align: center;"
+                        th:text="${students[__${i.index}__].getUniqueId()}">My Id</td>
                     <td class="align-middle" style="width: 20%;" th:text="${courseEnrolled.courseName}">Course Name</td>
                     <td class="align-middle" style="width: 10%; text-align: center;">
                         <span th:if="${courseEnrolled.numberOfStudents == 0}"></span>
@@ -116,6 +116,41 @@
                         <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">
                             <button type="button" class="btn btn-primary btn-sm">view course</button>
                         </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <h3 style="text-align: center; margin:auto;">Courses Taken</h3>
+            <table id="example" class="table table-bordered table-hover -align-center"
+                   style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">Course Name</th>
+                    <th style="text-align: center;"># Students</th>
+                    <th style="text-align: center;">Start Date</th>
+                    <th style="text-align: center;">End Date</th>
+                    <th style="text-align: center;">Active?</th>
+                    <th style="text-align: center;">Course Grade</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="courseHistory : ${courseHistories}">
+                    <td class="align-middle" style="width: 20%;" th:text="${courseHistory.courseName}">Course Name</td>
+                    <td class="align-middle" style="width: 10%; text-align: center;">
+                        <span th:if="${courseHistory.numberOfStudents == 0}"></span>
+                        <span th:text="${courseHistory.numberOfStudents}"></span>
+                    </td>
+                    <td class="align-middle" style="width: 20%; text-align: center;"
+                        th:text="${#dates.format(courseHistory.startDate, 'dd.MM.yyyy')}">Start Date</td>
+                    <td class="align-middle" style="width: 20%; text-align: center;"
+                        th:text="${#dates.format(courseHistory.endDate, 'dd.MM.yyyy')}">End Date</td>
+                    <td class="align-middle" style="width: 5%; text-align: center;"
+                        th:text="${courseHistory.isActive} ? 'Yes' : 'No'">Active?</td>
+                    <td class="align-middle" style="width: 25%; text-align: center;">
+<!--                        <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">-->
+<!--                            <button type="button" class="btn btn-primary btn-sm">view grade</button>-->
+<!--                        </a>-->
                     </td>
                 </tr>
                 </tbody>

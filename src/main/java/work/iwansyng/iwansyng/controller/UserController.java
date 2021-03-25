@@ -72,22 +72,28 @@ public class UserController {
 
         // get a list of courses where the student.user.id == user.id
         // and remove course from allCourses if not active and if enrolled
-        allCourses.removeIf(c -> c.getIsActive() == false);
         List<Course> courses = new ArrayList<>(allCourses);
         List<Course> coursesEnrolled = new ArrayList<>();
+        List<Course> courseHistories = new ArrayList<>();
         for (Course course : courses) {
             for (Student student : students) {
                 if (course.getId() == student.getCourse().getId()) {
                     coursesEnrolled.add(course);
+                    courseHistories.add(course);
                     allCourses.remove(course);
                 }
             }
         }
 
+        allCourses.removeIf(c -> c.getIsActive() == false);
+        coursesEnrolled.removeIf(c -> c.getIsActive() == false);
+        courseHistories.removeIf(c -> c.getIsActive() == true);
+
         modelAndView.addObject("courses", allCourses);
         modelAndView.addObject("coursesEnrolled", coursesEnrolled);
+        modelAndView.addObject("courseHistories", courseHistories);
         modelAndView.addObject("user", user);
-        modelAndView.addObject("student_id", (coursesEnrolled.size() > 0 ? students.get(0).getUniqueId() : 0));
+        modelAndView.addObject("students", students);
         modelAndView.addObject("role", (role.isPresent() ? role.get().getRole() : ""));
         modelAndView.setViewName("user/user_dashboard");
 
