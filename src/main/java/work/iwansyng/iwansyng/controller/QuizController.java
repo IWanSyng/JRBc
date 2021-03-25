@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import work.iwansyng.iwansyng.model.Course;
+import work.iwansyng.iwansyng.model.role.User;
 import work.iwansyng.iwansyng.repository.CourseRepository;
 import work.iwansyng.iwansyng.repository.QuizRepository;
 import work.iwansyng.iwansyng.repository.UserRepository;
@@ -29,6 +30,7 @@ public class QuizController {
 
     @GetMapping(path = "/quiz_view")
     public String addQuiz(Model model) {
+
         Quiz quiz = new Quiz();
         quiz.setName("First quiz");
         Optional<Course> course = courseRepository.findCourseById(3L);
@@ -50,18 +52,53 @@ public class QuizController {
         return "quiz_view";
     }
 
-    // retrieve from the database for admin view
-    // all quizzes where the quizzes.course id == Environment course id
-    // and quizzes.user id == Principal user id
-    @GetMapping(path = "{id}/all")
-    public ModelAndView getAllQuizzes(@PathVariable("id") Long id,
-                                      Principal principal) {
+    @GetMapping(path = "{id}/view")
+    public ModelAndView getQuizView(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         Optional<Course> course = courseRepository.findCourseById(id);
 
         List<Quiz> quizList = quizRepository.findAll()
                 .stream()
                 .filter(q -> q.getCourse().getId() == course.get().getId())
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("quizList", quizList);
+        modelAndView.setViewName("quizzes");
+
+        return modelAndView;
+    }
+
+    // retrieve from the database for admin view
+    // all quizzes where the quizzes.course id == Environment course id
+    // and quizzes.user id == Principal user id
+    @GetMapping(path = "{id}/results")
+    public ModelAndView getQuizResults(@PathVariable("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<Course> course = courseRepository.findCourseById(id);
+
+        List<Quiz> quizList = quizRepository.findAll()
+                .stream()
+                .filter(q -> q.getCourse().getId() == course.get().getId())
+                .collect(Collectors.toList());
+
+        modelAndView.addObject("quizList", quizList);
+        modelAndView.setViewName("quizzes");
+
+        return modelAndView;
+    }
+
+    @GetMapping(path = "{id}/all")
+    public ModelAndView getAllQuizzes(@PathVariable("id") Long id,
+                                      Principal principal) {
+        Optional<String> currentUser = Optional.ofNullable(principal.getName());
+        User user = userRepository.findByUsername(currentUser.get());
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<Course> course = courseRepository.findCourseById(id);
+
+        List<Quiz> quizList = quizRepository.findAll()
+                .stream()
+                .filter(q -> q.getCourse().getId().equals(course.get().getId()))
+                .filter(q -> q.getUser().getId().equals(user.getId()))
                 .collect(Collectors.toList());
 
         modelAndView.addObject("quizList", quizList);
@@ -84,3 +121,8 @@ public class QuizController {
         return "quiz_view";
     }
 }
+
+//    For Admin /quiz/3/all
+//        Displays a table of quizzes
+//        where course.id == currentCourse.id;
+//        where user.id == currentUser.id;
