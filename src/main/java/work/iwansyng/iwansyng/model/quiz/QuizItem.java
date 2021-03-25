@@ -19,7 +19,9 @@ public class QuizItem implements Answerable, Cloneable {
 
     public Map<String, String> questionAnswerMap = new HashMap<>();
 
-    public QuizItem(String questionString, String... answerStrings) {
+    private List<String> submittedAnswers;
+
+    public QuizItem(AnswerType answerType, String questionString, String... answerStrings) {
         if (questionString == null)
             throw new IllegalArgumentException(
                     "'questionString' cannot be null");
@@ -28,6 +30,7 @@ public class QuizItem implements Answerable, Cloneable {
                     "'answerStrings' cannot be null and 'answerStrings' length should be > 0");
 
         this.questionLines.add(questionString);
+        this.answerType = answerType;
         Collections.addAll(this.answerCandidateLines, answerStrings);
     }
 

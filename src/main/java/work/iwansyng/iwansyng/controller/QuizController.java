@@ -14,7 +14,6 @@ import work.iwansyng.iwansyng.model.quiz.*;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,19 +31,15 @@ public class QuizController {
     public String addQuiz(Model model) {
         Quiz quiz = new Quiz();
         quiz.setName("First quiz");
-        Optional<Course> course = courseRepository.findCourseById(4L);
+        Optional<Course> course = courseRepository.findCourseById(3L);
         quiz.setCourse(course.get());
 
         quiz.setScheduleStart(new Date(System.currentTimeMillis()));
         quiz.setScheduleEnd(new Date(System.currentTimeMillis()));
 
-        QuizItem firstQuestion = new QuizItemSingleAnswer("What is your name?", "Lauris", "Santa", "Maris", "Tom");
-        firstQuestion.questionAnswerMap.put("Lauris", "");
-        firstQuestion.questionAnswerMap.put("Santa", "");
-        firstQuestion.questionAnswerMap.put("Maris", "");
-        firstQuestion.questionAnswerMap.put("Tom", "");
+        QuizItem firstQuestion = new QuizItem(AnswerType.SINGLE, "What is your name?", "Lauris", "Santa", "Maris", "Tom");
 
-        QuizItem secondQuestion = new QuizItemMultiAnswer("What is your name?", "Lauris2", "Santa2", "Maris2", "Tom2");
+        QuizItem secondQuestion = new QuizItem(AnswerType.MULTIPLE, "What is your name?", "Lauris2", "Santa2", "Maris2", "Tom2");
         secondQuestion.questionAnswerMap.put("Lauris2", "");
         secondQuestion.questionAnswerMap.put("Santa2", "");
         secondQuestion.questionAnswerMap.put("Maris2", "");
@@ -82,6 +77,11 @@ public class QuizController {
     @PostMapping("/quiz_preview")
     public String submitTest(@ModelAttribute(value = "quiz") Quiz quiz, Model model) {
         System.out.println(quiz);
+        for (QuizItem quizItem : quiz.getQuizItems()) {
+            if (quizItem.answerType.equals(AnswerType.SINGLE)) {
+                quizItem.questionAnswerMap.put(quizItem.getSubmittedAnswers().get(0), "0");
+            }
+        }
         return "quiz_preview";
     }
 

@@ -23,7 +23,7 @@
     </div>
 </nav>
 
-<form action="#" th:action="@{/quiz_preview}" th:object="${quiz}" method="post">
+<form action="#" th:action="@{/quiz/quiz_preview}" th:object="${quiz}" method="post">
     <div class="container-lg">
         <div class="modal-dialog modal-lg">
             <h1 th:text="${quiz.getName()}">Quiz Name</h1>
@@ -33,13 +33,14 @@
                 </div>
                 <div th:if="${quizItem.getAnswerType().ordinal()} == '0'" th:each="answer, answerStat : ${quizItem.answerCandidateLines}" class="modal-body">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" th:value="${answerStat.index}" th:field="*{quizItems[__${quizItemStat.index}__].answerCandidateLines}">
+                        <input class="form-check-input" type="radio" th:value="${answer}" th:field="*{quizItems[__${quizItemStat.index}__].submittedAnswers}">
                         <label th:text="${answer}"></label>
                     </div>
                 </div>
                 <div th:if="${quizItem.getAnswerType().ordinal()} == '1'" th:each="answer, answerStat : ${quizItem.answerCandidateLines}" class="modal-body">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" th:value="${answerStat.index}" th:field="*{quizItems[__${quizItemStat.index}__].answerCandidateLines}">
+                        <input class="form-check-input" type="checkbox" th:value="0"
+                               th:field="*{quizItems[__${quizItemStat.index}__].questionAnswerMap[__${answer}__]}">
                         <label th:text="${answer}"></label>
                     </div>
                 </div>
