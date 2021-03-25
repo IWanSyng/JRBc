@@ -69,7 +69,7 @@ public class QuizController {
                 .collect(Collectors.toList());
 
         modelAndView.addObject("quizList", quizList);
-        modelAndView.setViewName("/quizzes");
+        modelAndView.setViewName("quizzes");
 
         return modelAndView;
     }
