@@ -55,15 +55,15 @@ public class QuizController {
     @GetMapping(path = "{id}/view")
     public ModelAndView getQuizView(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        Optional<Course> course = courseRepository.findCourseById(id);
+        Optional<Quiz> quiz = Optional.ofNullable(quizRepository.findById(id).get());
 
-        List<Quiz> quizList = quizRepository.findAll()
-                .stream()
-                .filter(q -> q.getCourse().getId() == course.get().getId())
-                .collect(Collectors.toList());
+        if (quiz.isEmpty()) {
+            modelAndView.setViewName("error");
+            return modelAndView;
+        }
 
-        modelAndView.addObject("quizList", quizList);
-        modelAndView.setViewName("quizzes");
+        modelAndView.addObject("quiz", quiz.get());
+        modelAndView.setViewName("quiz_view");
 
         return modelAndView;
     }
