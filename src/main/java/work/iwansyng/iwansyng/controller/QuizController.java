@@ -76,12 +76,15 @@ public class QuizController {
 
     @PostMapping("/quiz_preview")
     public String submitTest(@ModelAttribute(value = "quiz") Quiz quiz, Model model) {
-        System.out.println(quiz);
+//        System.out.println(quiz);
         for (QuizItem quizItem : quiz.getQuizItems()) {
             if (quizItem.answerType.equals(AnswerType.SINGLE)) {
                 quizItem.questionAnswerMap.put(quizItem.getSubmittedAnswers().get(0), "0");
             }
         }
+
+        quizRepository.save(quiz);
+
         return "quiz_preview";
     }
 
