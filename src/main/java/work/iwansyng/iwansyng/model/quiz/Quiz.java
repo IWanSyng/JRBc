@@ -33,7 +33,6 @@ public class Quiz {
     @Convert(converter = QuizItemListAttributeConverter.class)
     private List<QuizItem> quizItems = new ArrayList<>();
 
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date scheduleStart;
 

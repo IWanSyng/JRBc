@@ -4,16 +4,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import work.iwansyng.iwansyng.model.Course;
 import work.iwansyng.iwansyng.repository.CourseRepository;
 import work.iwansyng.iwansyng.repository.QuizRepository;
 import work.iwansyng.iwansyng.repository.UserRepository;
 import work.iwansyng.iwansyng.model.quiz.*;
+
+import java.security.Principal;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 @SessionAttributes("quiz")
+@RequestMapping(path = "/quiz")
 public class QuizController {
 
     private final QuizRepository quizRepository;
@@ -24,7 +29,8 @@ public class QuizController {
     public String addQuiz(Model model) {
         Quiz quiz = new Quiz();
         quiz.setName("First quiz");
-        quiz.setCourse(new Course());
+        Optional<Course> course = courseRepository.findCourseById(4L);
+        quiz.setCourse(course.get());
 
         quiz.setScheduleStart(new Date(System.currentTimeMillis()));
         quiz.setScheduleEnd(new Date(System.currentTimeMillis()));
@@ -45,10 +51,21 @@ public class QuizController {
         quiz.addQuizItem(secondQuestion);
         model.addAttribute("quiz", quiz);
 
-
-//        quizRepository.save(quiz);
+        quizRepository.save(quiz);
 
         return "quiz_preview";
+    }
+
+    // retrieve from the database for admin view
+    // all quizzes where the quizzes.course id == Environment course id
+    // and quizzes.user id == Principal user id
+    @RequestMapping(path = "/all", params = { "course", "id", "quiz" }, method = RequestMethod.GET)
+    public ModelAndView getAllQuizzes(Course course, Principal principal) {
+        ModelAndView modelAndView = new ModelAndView();
+
+
+
+        return modelAndView;
     }
 
     @PostMapping("/quiz_preview")

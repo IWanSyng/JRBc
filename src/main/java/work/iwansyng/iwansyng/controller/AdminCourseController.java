@@ -25,6 +25,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/admin/course")
+@SessionAttributes("course")
 @RequiredArgsConstructor
 public class AdminCourseController {
 
