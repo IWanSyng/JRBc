@@ -45,14 +45,12 @@
                     <div th:switch="${quizItem.answerType}">
                         <div th:case="${quizItem.answerType.SINGLE}">
                             <ul style="list-style: none" th:each="answer : ${quizItem.questionAnswerMap}">
-    <!--                                        <p th:text="${quiz.quizItems[__${quizItemStat.index}__].answerCandidateLines}"></p>-->
                                 <li th:text="${answer.key}"></li>
                             </ul>
                         </div>
                         <div th:case="${quizItem.answerType.MULTIPLE}">
                             <ul style="list-style: none" th:each="answer: ${quizItem.questionAnswerMap}">
-    <!--                                        <p th:text="${quiz.quizItems[__${quizItemStat.index}__].answerCandidateLines}"></p>-->
-                                <li th:if="${answer.value} '? : '"></li>
+                                <li th:text="${answer.value != null} ? ${answer.key} : ''"></li>
                             </ul>
                         </div>
                     </div>
