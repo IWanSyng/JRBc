@@ -13,7 +13,10 @@ import work.iwansyng.iwansyng.model.quiz.*;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -59,11 +62,19 @@ public class QuizController {
     // retrieve from the database for admin view
     // all quizzes where the quizzes.course id == Environment course id
     // and quizzes.user id == Principal user id
-    @RequestMapping(path = "/all", params = { "course", "id", "quiz" }, method = RequestMethod.GET)
-    public ModelAndView getAllQuizzes(Course course, Principal principal) {
+    @GetMapping(path = "{id}/all")
+    public ModelAndView getAllQuizzes(@PathVariable("id") Long id,
+                                      Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
+        Optional<Course> course = courseRepository.findCourseById(id);
 
+        List<Quiz> quizList = quizRepository.findAll()
+                .stream()
+                .filter(q -> q.getCourse().getId() == course.get().getId())
+                .collect(Collectors.toList());
 
+        modelAndView.addObject("quizList", quizList);
+        modelAndView.setViewName("/quizzes");
 
         return modelAndView;
     }

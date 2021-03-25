@@ -50,33 +50,37 @@
                    style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
                 <thead>
                 <tr>
-                    <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Course Name</th>
                     <th style="text-align: center;"># Students</th>
                     <th style="text-align: center;">Start Date</th>
                     <th style="text-align: center;">End Date</th>
                     <th style="text-align: center;">Active?</th>
                     <th style="text-align: center;">Course Info</th>
+                    <th style="text-align: center;">Course Quizzes</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="course : ${courses}">
-                    <td class="align-middle" style="width: 5%; text-align: center;" th:text="${course.id}">Id</td>
-                    <td class="align-middle" style="width: 25%;" th:text="${course.courseName}">Course Name</td>
+                    <td class="align-middle" style="width: 20%;" th:text="${course.courseName}">Course Name</td>
                     <td class="align-middle" style="width: 10%; text-align: center;">
                         <span th:if="${course.numberOfStudents == 0}"></span>
                         <span th:text="${course.numberOfStudents}"></span>
                     </td>
-                    <td class="align-middle" style="width: 20%; text-align: center;"
+                    <td class="align-middle" style="width: 18%; text-align: center;"
                         th:text="${#dates.format(course.startDate, 'dd.MM.yyyy')}">Start Date</td>
-                    <td class="align-middle" style="width: 20%; text-align: center;"
+                    <td class="align-middle" style="width: 18%; text-align: center;"
                         th:text="${#dates.format(course.endDate, 'dd.MM.yyyy')}">End Date</td>
-                    <td class="align-middle" style="width: 5%; text-align: center;"
+                    <td class="align-middle" style="width: 6%; text-align: center;"
                         th:text="${course.isActive} ? 'Yes' : 'No'">Active?</td>
-                    <td class="align-middle" style="width: 10%; text-align: center;">
+                    <td class="align-middle" style="width: 15%; text-align: center;">
                             <a th:href="@{'/admin/course/' + ${course.id}}">
                                 <button type="button" class="btn btn-primary btn-sm">view course</button>
                             </a>
+                    </td>
+                    <td class="align-middle" style="width: 15%; text-align: center;">
+                        <a th:href="@{'/quiz/' + ${course.id} + '/all/'}">
+                            <button type="button" class="btn btn-primary btn-sm">view quizzes</button>
+                        </a>
                     </td>
                 </tr>
                 </tbody>
@@ -114,7 +118,7 @@
         <div class="btn-group mr-2" role="group" style="margin-left: 10px; margin-right: 10px;" aria-label="Second group">
         </div>
         <div class="btn-group" role="group" aria-label="Third group">
-            <form style="margin-top: 0px" th:action="@{/admin/create_new_course}"> <!-- /admin/create_new_course -->
+            <form style="margin-top: 0px" th:action="@{/admin/create_new_course}">
                 <button class="btn btn-md btn-primary" name="Submit" value="Logout" type="Submit" th:text="'Add Course'"></button>
             </form>
         </div>
