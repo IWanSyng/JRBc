@@ -105,11 +105,20 @@
             <!--            </nav>-->
         </div>
     </div>
-
-    <form th:action="@{/logout}" method="post">
-        <button class="btn btn-lg btn-primary" name="Submit" value="Logout" type="Submit" th:text="Logout"></button>
-    </form>
-
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            <form style="margin-top: 0px" th:action="@{/logout}" method="post">
+                <button class="btn btn-md btn-primary" name="Submit" value="Logout" type="Submit" th:text="Logout"></button>
+            </form>
+        </div>
+        <div class="btn-group mr-2" role="group" style="margin-left: 10px; margin-right: 10px;" aria-label="Second group">
+        </div>
+        <div class="btn-group" role="group" aria-label="Third group">
+            <form style="margin-top: 0px" th:action="@{/admin/create_new_course}">
+                <button class="btn btn-md btn-primary" name="Submit" value="Logout" type="Submit" th:text="'Add Course'"></button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!--<script th:src="@{/webjars/jquery/jquery.min.js}"></script>-->

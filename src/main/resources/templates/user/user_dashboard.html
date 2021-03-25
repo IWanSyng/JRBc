@@ -76,7 +76,7 @@
                         th:text="${course.isActive} ? 'Yes' : 'No'">Active?</td>
                     <td class="align-middle" style="width: 20%; text-align: center;">
                         <a th:href="@{'/user/course/' + ${course.id}}">
-                            <button type="button" class="btn btn-primary btn-sm">view course</button>
+                            <button type="button" class="btn btn-info btn-sm">view course</button>
                         </a>
                     </td>
                 </tr>
@@ -113,48 +113,21 @@
                     <td class="align-middle" style="width: 5%; text-align: center;"
                         th:text="${courseEnrolled.isActive} ? 'Yes' : 'No'">Active?</td>
                     <td class="align-middle" style="width: 17%; text-align: center;">
-                        <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">
-                            <button type="button" class="btn btn-primary btn-sm">view course</button>
-                        </a>
+                        <span th:if="${courseEnrolled.getIsActive()}">
+                            <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">
+                                <button type="button" class="btn btn-info btn-sm">view course</button>
+                            </a>
+                        </span>
+                        <span th:if="${not courseEnrolled.getIsActive()}">
+                            <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">
+                                <button type="button" class="btn btn-success btn-sm">view results</button>
+                            </a>
+                        </span>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <br>
-            <h3 style="text-align: center; margin:auto;">Courses Taken</h3>
-            <table id="example" class="table table-bordered table-hover -align-center"
-                   style="width: 100%; margin-left:auto; margin-right:auto; margin-top: 20px">
-                <thead>
-                <tr>
-                    <th style="text-align: center;">Course Name</th>
-                    <th style="text-align: center;"># Students</th>
-                    <th style="text-align: center;">Start Date</th>
-                    <th style="text-align: center;">End Date</th>
-                    <th style="text-align: center;">Active?</th>
-                    <th style="text-align: center;">Course Grade</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="courseHistory : ${courseHistories}">
-                    <td class="align-middle" style="width: 20%;" th:text="${courseHistory.courseName}">Course Name</td>
-                    <td class="align-middle" style="width: 10%; text-align: center;">
-                        <span th:if="${courseHistory.numberOfStudents == 0}"></span>
-                        <span th:text="${courseHistory.numberOfStudents}"></span>
-                    </td>
-                    <td class="align-middle" style="width: 20%; text-align: center;"
-                        th:text="${#dates.format(courseHistory.startDate, 'dd.MM.yyyy')}">Start Date</td>
-                    <td class="align-middle" style="width: 20%; text-align: center;"
-                        th:text="${#dates.format(courseHistory.endDate, 'dd.MM.yyyy')}">End Date</td>
-                    <td class="align-middle" style="width: 5%; text-align: center;"
-                        th:text="${courseHistory.isActive} ? 'Yes' : 'No'">Active?</td>
-                    <td class="align-middle" style="width: 25%; text-align: center;">
-<!--                        <a th:href="@{'/user/course/' + ${courseEnrolled.id}}">-->
-<!--                            <button type="button" class="btn btn-primary btn-sm">view grade</button>-->
-<!--                        </a>-->
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+
 
             <!--            <nav aria-label="Page navigation" class="paging">-->
             <!--                <ul class="pagination" th:if="${employees.page.totalPages > 1}">-->
@@ -180,11 +153,9 @@
         </div>
 
     </div>
-
     <form th:action="@{/logout}" method="post">
         <button class="btn btn-lg btn-primary" name="Submit" value="Logout" type="Submit" th:text="Logout"></button>
     </form>
-
 </div>
 
 <!--<script th:src="@{/webjars/jquery/jquery.min.js}"></script>-->

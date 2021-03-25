@@ -74,6 +74,14 @@ public class AdminController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/create_new_course")
+    public ModelAndView createNewCourse() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/admin/create_new_course");
+
+        return modelAndView;
+    }
+
     @GetMapping(value="/registration_admin")
     public ModelAndView registrationAdmin(){
         ModelAndView modelAndView = new ModelAndView();
