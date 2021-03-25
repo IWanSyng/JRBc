@@ -23,7 +23,7 @@
     </div>
 </nav>
 
-<form action="#" th:action="@{/quiz/quiz_preview}" th:object="${quiz}" method="post">
+<form action="#" th:action="@{/quiz/quiz_view}" th:object="${quiz}" method="post">
     <div class="container-lg">
         <div class="modal-dialog modal-lg">
             <h1 th:text="${quiz.getName()}">Quiz Name</h1>
