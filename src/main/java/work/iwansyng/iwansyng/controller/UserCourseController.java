@@ -92,6 +92,8 @@ public class UserCourseController {
             modelAndView.addObject("flag", false);
         }
 
+        String studentUniqueId = "u" + students.get(0).getUniqueId().toString();
+        modelAndView.addObject("studentUUID", studentUniqueId);
         modelAndView.addObject("course", course.get());
         modelAndView.setViewName("user_course_view");
 
