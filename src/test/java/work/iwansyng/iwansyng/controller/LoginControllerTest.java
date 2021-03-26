@@ -1,9 +1,6 @@
 package work.iwansyng.iwansyng.controller;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class LoginControllerTest {
 
     @Autowired
@@ -55,34 +53,34 @@ class LoginControllerTest {
     }
 
     @Test
-    void index() {
+    void test01Index() {
         Assertions.assertEquals(loginController.index(), "index");
     }
 
     @Test
-    void login() {
+    void test02Login() {
         Assertions.assertEquals(loginController.login().getViewName(), "login");
     }
 
     @Test
-    void registration() {
+    void test03Registration() {
         ConfigParam configParam = configParamRepository.findByConfigParamName("USER_REGISTRATION");
         configParam.setIsEnabled(false);
         configParamRepository.save(configParam);
 
         ModelAndView modelAndView = registrationController.registration();
-        Assertions.assertEquals(modelAndView.getViewName(), "error");
+        Assertions.assertEquals("error", modelAndView.getViewName());
 
         configParam.setIsEnabled(true);
         configParamRepository.save(configParam);
 
         modelAndView = registrationController.registration();
-        Assertions.assertEquals(modelAndView.getViewName(), "registration");
+        Assertions.assertEquals("registration", modelAndView.getViewName());
     }
 
     @Test
-    void registrationAdmin() {
+    void test04RegistrationAdmin() {
         ModelAndView modelAndView = adminController.registrationAdmin();
-        Assertions.assertEquals(modelAndView.getViewName(), "registration_admin");
+        Assertions.assertEquals("/admin/registration_admin", modelAndView.getViewName());
     }
 }
