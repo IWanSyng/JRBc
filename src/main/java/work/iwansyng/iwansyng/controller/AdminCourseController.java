@@ -103,6 +103,65 @@ public class AdminCourseController {
         return modelAndView;
     }
 
+    @GetMapping(path = "/create_new_course")
+    public ModelAndView createNewCourse(Principal principal, Model model) {
+        Optional<String> name = getOptionalName(principal.getName());
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("admin/create_new_course");
+
+        return modelAndView;
+    }
+
+    @PostMapping(path = "/add_course")
+    public ModelAndView addNewCourse(Principal principal, Model model) {
+        Optional<String> name = getOptionalName(principal.getName());
+        Instructor instructor = null;
+        List<Course> courseList = null;
+        ModelAndView modelAndView = null;
+
+        if (name.isPresent()) {
+            User currentUser = userRepository.findByUsername(name.get());
+            instructor = new Instructor();
+            instructor.setUser(userRepository.findByUsername(currentUser.getUsername()));
+        }
+        else {
+            modelAndView = new ModelAndView();
+            modelAndView.setViewName("/admin/home");
+
+            return modelAndView;
+        }
+
+        courseList = new ArrayList<>();
+
+        Course course = new Course();
+        course.setCourseName("My first course");
+        course.setStartDate(new Date(System.currentTimeMillis()));
+        course.setEndDate(new Date(System.currentTimeMillis()));
+
+        instructor.setCourse(course);
+        courseList.add(course);
+        courseRepository.save(course);
+
+        course = new Course();
+        course.setCourseName("My second course");
+        course.setStartDate(new Date(System.currentTimeMillis()));
+        course.setEndDate(new Date(System.currentTimeMillis()));
+
+        instructor.setCourse(course);
+        courseList.add(course);
+        courseRepository.save(course);
+
+        instructorRepository.save(instructor);
+
+        modelAndView = new ModelAndView();
+        modelAndView.addObject("course", courseList.get(0));
+        modelAndView.setViewName("admin/create_new_course");
+
+        return modelAndView;
+    }
+
     @GetMapping("/course_all")
     public ModelAndView listCourses() {
         List<Course> courses = courseRepository.findAll();
@@ -111,5 +170,9 @@ public class AdminCourseController {
         modelAndView.setViewName("view_course");
 
         return modelAndView;
+    }
+
+    private Optional<String> getOptionalName(String objectName) {
+        return Optional.ofNullable(objectName);
     }
 }
