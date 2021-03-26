@@ -28,6 +28,30 @@ public class QuizController {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
 
+    @GetMapping(path = "/quiz_view")
+    public String addQuiz(Model model) {
+
+        Quiz quiz = new Quiz();
+        quiz.setName("First quiz");
+        Optional<Course> course = courseRepository.findCourseById(3L);
+        quiz.setCourse(course.get());
+
+        quiz.setScheduleStart(new Date(System.currentTimeMillis()));
+        quiz.setScheduleEnd(new Date(System.currentTimeMillis()));
+
+        QuizItem firstQuestion = new QuizItem(AnswerType.SINGLE, "What is your name?", "Lauris", "Santa", "Maris", "Tom");
+
+        QuizItem secondQuestion = new QuizItem(AnswerType.MULTIPLE, "What is your name?", "Lauris2", "Santa2", "Maris2", "Tom2");
+
+        quiz.addQuizItem(firstQuestion);
+        quiz.addQuizItem(secondQuestion);
+        model.addAttribute("quiz", quiz);
+
+        quizRepository.save(quiz);
+
+        return "quiz_view";
+    }
+
     @GetMapping(path = "admin/{id}/view")
     public ModelAndView getAdminQuizView(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -108,40 +132,16 @@ public class QuizController {
         return modelAndView;
     }
 
-
-    @GetMapping(path = "{id}/quiz_view")
-    public String getQuiz(Model model) {
-
-        Quiz quiz = new Quiz();
-        quiz.setName("First quiz");
-        Optional<Course> course = courseRepository.findCourseById(3L);
-        quiz.setCourse(course.get());
-
-        quiz.setScheduleStart(new Date(System.currentTimeMillis()));
-        quiz.setScheduleEnd(new Date(System.currentTimeMillis()));
-
-        QuizItem firstQuestion = new QuizItem(AnswerType.SINGLE, "What is your name?", "Lauris", "Santa", "Maris", "Tom");
-
-        QuizItem secondQuestion = new QuizItem(AnswerType.MULTIPLE, "What is your name?", "Lauris2", "Santa2", "Maris2", "Tom2");
-
-        quiz.addQuizItem(firstQuestion);
-        quiz.addQuizItem(secondQuestion);
-        model.addAttribute("quiz", quiz);
-
-        quizRepository.save(quiz);
-
-        return "quiz_view";
-    }
-
-
-    @PostMapping(path = "{id}/quiz_view")
-    public String saveQuiz(@ModelAttribute(value = "quiz") Quiz quiz, Model model) {
+    @PostMapping("/quiz_view")
+    public String submitTest(@ModelAttribute(value = "quiz") Quiz quiz, Model model) {
         for (QuizItem quizItem : quiz.getQuizItems()) {
             if (quizItem.answerType.equals(AnswerType.SINGLE)) {
                 quizItem.questionAnswerMap.put(quizItem.getSubmittedAnswers().get(0), "0");
             }
         }
+
         quizRepository.save(quiz);
+
         return "quiz_view";
     }
 }
