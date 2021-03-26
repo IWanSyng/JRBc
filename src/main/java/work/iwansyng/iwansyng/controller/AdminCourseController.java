@@ -30,7 +30,6 @@ import java.util.Optional;
 public class AdminCourseController {
 
     private final CourseRepository courseRepository;
-    private final StudentRepository studentRepository;
     private final UserRepository userRepository;
     private final InstructorRepository instructorRepository;
 

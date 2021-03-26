@@ -17,18 +17,18 @@ public class IwanSyngUserService {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder cryptPasswordEncoder;
     private ConfigParamRepository configParamRepository;
 
     @Autowired
     public IwanSyngUserService(UserRepository userRepository,
                                RoleRepository roleRepository,
                                ConfigParamRepository configParamRepository,
-                               BCryptPasswordEncoder bCryptPasswordEncoder) {
+                               BCryptPasswordEncoder cryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.configParamRepository = configParamRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.cryptPasswordEncoder = cryptPasswordEncoder;
     }
 
     public User findUserByUserName(String userName) {
@@ -54,7 +54,7 @@ public class IwanSyngUserService {
     }
 
     public User saveUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(cryptPasswordEncoder.encode(user.getPassword()));
         user.setIsEnabled(true);
         Role userRole = roleRepository.findByRole("USER");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
@@ -62,7 +62,7 @@ public class IwanSyngUserService {
     }
 
     public User saveAdminUser(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(cryptPasswordEncoder.encode(user.getPassword()));
         user.setIsEnabled(true);
         Role userRole = roleRepository.findByRole("ADMIN");
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));

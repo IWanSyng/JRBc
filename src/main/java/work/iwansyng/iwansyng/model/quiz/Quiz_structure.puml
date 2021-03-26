@@ -1,0 +1,197 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "work.iwansyng.iwansyng.model.quiz.Quiz"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_567592198 { 
+   	label=iwansyng
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1744458898 { 
+   	label=iwansyng
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Course1073129268[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Course</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   courseName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   endDate: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isActive: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   numberOfStudents: Integer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   startDate: Date [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Quiz1726456375[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Quiz</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   course: Course [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   quizItems: List&lt;QuizItem&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   scheduleEnd: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   scheduleStart: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   user: User [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addQuizItem(quizItem: QuizItem)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ removeQuizItem(quizItem: QuizItem)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+QuizItem1726456375[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)QuizItem</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   answerCandidateLines: List&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   answerType: AnswerType [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   questionAnswerMap: Map&lt;String, String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   questionLines: List&lt;String&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   submittedAnswers: List&lt;String&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ clearAnswers()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ clone(): QuizItem</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Role1726480472[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Role</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   role: String [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+User1726480472[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)User</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   createdAt: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   firstName: String [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   isEnabled: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   lastName: String [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   password: String [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   roles: Set&lt;Role&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   username: String [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Quiz1726456375 -> Course1073129268[label="course
+[0..1]"];
+Quiz1726456375 -> QuizItem1726456375[label="quizItems
+[0..*]"];
+Quiz1726456375 -> User1726480472[label="user
+[0..1]"];
+User1726480472 -> Role1726480472[label="roles
+[0..*]"];
+    
+}
+@enduml
