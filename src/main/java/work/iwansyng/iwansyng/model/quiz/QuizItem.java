@@ -19,7 +19,7 @@ public class QuizItem implements Answerable, Cloneable {
 
     public Map<String, String> questionAnswerMap = new HashMap<>();
 
-    private List<String> submittedAnswers;
+    private List<String> submittedAnswers = new ArrayList<>();
 
     public QuizItem(AnswerType answerType, String questionString, String... answerStrings) {
         if (questionString == null)
@@ -34,22 +34,6 @@ public class QuizItem implements Answerable, Cloneable {
         Collections.addAll(this.answerCandidateLines, answerStrings);
     }
 
-    public void addAnswerCandidateLine(String answerCandidateLine) {
-        this.answerCandidateLines.add(answerCandidateLine);
-    }
-
-    public void removeAnswerCandidateLineAt(int index) {
-        this.answerCandidateLines.remove(index);
-    }
-
-    public void addQuestionLine(String questionLine) {
-        this.questionLines.add(questionLine);
-    }
-
-    public void removeQuestionLineAt(int index) {
-        this.questionLines.remove(index);
-    }
-
     public void clearAnswers() {
         questionAnswerMap = new HashMap<>();
     }
@@ -60,7 +44,8 @@ public class QuizItem implements Answerable, Cloneable {
         try {
              clone = (QuizItem) super.clone();
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            clone = new QuizItem(this.answerType, this.questionLines.get(0),
+                    this.answerCandidateLines.toArray(String[]::new));
         }
         return clone;
     }
